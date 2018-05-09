@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\evecm\evecm.csproj" />
+    <ProjectReference Include="..\EveCM\EveCM.csproj" />
   </ItemGroup>
 
 </Project>

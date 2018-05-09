@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2011
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "evecm", "evecm\evecm.csproj", "{5EBBB486-2F15-4BFB-91B7-239AB1C8096B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "evecm", "EveCM\EveCM.csproj", "{5EBBB486-2F15-4BFB-91B7-239AB1C8096B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evecm.Tests", "evecm.Tests\evecm.Tests.csproj", "{24AEC62B-ABC5-4EFF-8A4F-23642854256D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evecm.Tests", "EveCM.Tests\EveCM.Tests.csproj", "{24AEC62B-ABC5-4EFF-8A4F-23642854256D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
