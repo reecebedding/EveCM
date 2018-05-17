@@ -23,12 +23,34 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">evecm</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav dropdown">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
-                <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id="fat-menu" class="dropdown">
+                            <a href="#" class="dropdown-toggle" id="characterDropDown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <img src="@User.Identity.PortraitUrl(EveImageHelper.CharacterAvatarSize.Thirty_Two)" /> @User.Identity.Name <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="characterDropDown">
+                                <li>
+                                    <a asp-controller="Authentication" asp-action="Logout">Logout</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <p class="nav navbar-text navbar-right">
+                        <a asp-controller="Authentication" asp-action="Login">
+                            <img src="~/images/eve-sso-login-black-small.png" alt="login-with-eve" />
+                        </a>
+                    </p>
+                }
             </div>
         </div>
     </nav>
