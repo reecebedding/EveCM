@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace evecm.Utils
+namespace EveCM.Utils
 {
     public static class EveImageHelper
     {

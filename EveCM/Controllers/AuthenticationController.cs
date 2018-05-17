@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace evecm.Controllers
+namespace EveCM.Controllers
 {
     [Route("auth")]
     public class AuthenticationController : Controller

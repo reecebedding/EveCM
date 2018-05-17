@@ -1,6 +1,6 @@
 using System;
 
-namespace evecm.Models
+namespace EveCM.Models
 {
     public class ErrorViewModel
     {

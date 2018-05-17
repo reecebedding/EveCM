@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using evecm.Models;
+using EveCM.Models;
 
-namespace evecm.Controllers
+namespace EveCM.Controllers
 {
     public class HomeController : Controller
     {
