@@ -1,63 +1,79 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - evecm</title>
 
-
     <link rel="stylesheet" asp-href-include="~/css/vendor.*.css" />
     <link rel="stylesheet" asp-href-include="~/css/app.*.css" />
-
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">evecm</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
 
-                    </li>
-                </ul>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="characterDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="@User.Identity.PortraitUrl(EveImageHelper.CharacterAvatarSize.Thirty_Two)" /> @User.Identity.Name <span class="caret"></span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="characterDropDown">
-                                <a asp-controller="Authentication" asp-action="Logout" class="dropdown-item">Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-                }
-                else
-                {
-                    <p class="nav navbar-text navbar-right">
-                        <a asp-controller="Authentication" asp-action="Login">
-                            <img src="~/images/eve-sso-login-black-small.png" alt="login-with-eve" />
+    <nav class="side-navbar">
+        <div class="side-navbar-wrapper">
+            <div class="sidenav-header d-flex align-items-center justify-content-center">
+                <div class="sidenav-header-inner text-center">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <img src="@User.Identity.PortraitUrl()" alt="person" class="img-fluid rounded-circle">
+                        <h2 class="h5">@User.Identity.Name</h2>
+                        <a asp-controller="Auth" asp-action="Logout"><span class="text-secondary">Logout</span> <i class="fa fa-sign-out"></i></a>
+                    }
+                    else
+                    {
+                        <img src="~/images/member.png" alt="person" class="img-fluid rounded-circle">
+                        <h2 class="h5">Guest</h2>
+                        <a asp-controller="Auth" asp-action="Login"><span class="text-secondary">Login</span> <i class="fa fa-sign-in"></i></a>
+                    }
+                </div>
+                <div class="sidenav-header-logo">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Home" asp-action="Index" class="brand-small text-center">
+                            <img src="@User.Identity.PortraitUrl()" alt="person" class="img-fluid rounded-circle">
                         </a>
-                    </p>
-                }
+                        <a asp-controller="Auth" asp-action="Logout" class="brand-small text-center"><i class="fa fa-sign-out"></i></a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Home" asp-action="Index" class="brand-small text-center">
+                            <img src="~/images/member.png" alt="person" class="img-fluid rounded-circle">
+                        </a>
+                        <a asp-controller="Auth" asp-action="Login" class="brand-small text-center"><i class="fa fa-sign-in"></i></a>
+                    }
+                </div>
             </div>
-        </nav>
-    </header>
-
-    <main role="main" class="container">
-        <div>
-            @RenderBody()
+            <div class="main-menu">
+                <ul id="side-main-menu" class="side-menu list-unstyled">
+                    <li><a asp-controller="Home" asp-action="Index"><img src="~/images/container.png"> Home</a></li>
+                </ul>
+            </div>
         </div>
-        <hr />
-        <footer>
-            <p class="float-right"><a href="#">Back to top</a></p>
-            <p>&copy; 2018 - evecm</p>
-        </footer>
-    </main>
+    </nav>
+    <div class="page">
+        <header class="header">
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <div class="navbar-holder d-flex align-items-center justify-content-between">
+                        <div class="navbar-header">
+                            <a id="toggle-btn" href="#" class="menu-btn"><i class="fa fa-align-justify"> </i></a><a asp-controller="Home" asp-action="Index" class="navbar-brand">
+                                <div class="brand-text d-none d-md-inline-block"><strong class="text-primary">EveCM</strong></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <section class="section-padding">
+            <div class="container-fluid">
+                <div class="row">
+                    @RenderBody()
+                </div>
+            </div>
+        </section>
+    </div>
 
     <script asp-src-include="~/js/vendor.*.js" asp-append-version="true"></script>
     <script asp-src-include="~/js/app.*.js" asp-append-version="true"></script>
