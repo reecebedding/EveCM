@@ -19,7 +19,7 @@ namespace EveCM.Tests.Authentication
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
                     new Claim[] {
-                    new Claim(ClaimTypes.NameIdentifier, characterId),
+                    new Claim("PrimaryCharacterId", characterId),
                     new Claim(ClaimTypes.Name, "fakeusername")
                 })
             );
@@ -39,7 +39,7 @@ namespace EveCM.Tests.Authentication
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
                     new Claim[] {
-                    new Claim(ClaimTypes.NameIdentifier, characterId),
+                    new Claim("PrimaryCharacterId", characterId),
                     new Claim(ClaimTypes.Name, "fakeusername")
                 })
             );
