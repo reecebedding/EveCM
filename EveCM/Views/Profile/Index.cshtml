@@ -1,0 +1,73 @@
+﻿@model Profile
+@{
+    ViewData["Title"] = "Profile";
+}
+@if (ViewData.ModelState.ErrorCount > 0)
+{
+    <div class="alert alert-danger col-md-12" role="alert">
+        <strong>@ViewData.ModelState.Values.FirstOrDefault()?.Errors?.FirstOrDefault().ErrorMessage</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+<div class="col-md-12 row container">
+    <div class="col-md-3 vertical-divider-right">
+        <h1>Profile</h1>
+        <section>
+            <img src="@User.Identity.PortraitUrl(EveImageHelper.CharacterAvatarSize.Two_Fifty_Six)" alt="person" class="img-fluid rounded-circle mx-auto d-block">
+
+            <div class="form-group">
+                <label asp-for="UserName"></label>
+                <input asp-for="UserName" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" readonly />
+            </div>
+        </section>
+    </div>
+    <div class="col-md-8 col-md-offset-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Associated Eve Characters</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <a asp-action="Associate" asp-controller="Profile">
+                        <img src="~/images/eve-sso-associate-black-small.png" alt="associate-character" />
+                    </a>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="row">
+                        @if (Model.AssociatedCharacters.Count() == 0)
+                        {
+                            <div class="col-md-3">
+                                <h2>None</h2>
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (CharacterDetails character in Model.AssociatedCharacters)
+                            {
+                                <div class="col-md-3">
+                                    <img src="@EveImageHelper.GetCharacterAvatar(character.CharacterID.ToString(), EveImageHelper.CharacterAvatarSize.One_Twenty_Eight)" alt="person" class="rounded-circle mx-auto d-block">
+                                    <p class="text-center">
+                                        @character.CharacterName
+                                    </p>
+
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

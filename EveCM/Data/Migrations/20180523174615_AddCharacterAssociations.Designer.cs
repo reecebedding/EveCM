@@ -11,9 +11,10 @@ using System;
 namespace EveCM.Data.Migrations
 {
     [DbContext(typeof(EveCMContext))]
-    partial class EveCMContextModelSnapshot : ModelSnapshot
+    [Migration("20180523174615_AddCharacterAssociations")]
+    partial class AddCharacterAssociations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

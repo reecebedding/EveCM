@@ -11,6 +11,8 @@ namespace EveCM.Data
 {
     public class EveCMContext : IdentityDbContext<ApplicationUser>
     {
+        public virtual DbSet<CharacterDetails> CharacterDetails { get; set; }
+
         public EveCMContext(DbContextOptions<EveCMContext> options)
             : base(options)
         {

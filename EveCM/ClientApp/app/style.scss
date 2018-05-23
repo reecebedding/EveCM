@@ -1774,3 +1774,15 @@ a > code {
 .side-menu li img{
     width: 32px;
 }
+
+.vertical-divider-left {
+    overflow: hidden;
+    border-left: 4px solid #393836;
+    margin-left: 5px;
+}
+
+.vertical-divider-right {
+    overflow: hidden;
+    margin-right: 5px;
+    border-right: 4px solid #393836;
+}

@@ -6,6 +6,11 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using EveCM.Data;
+using EveCM.Data.Repositories.Contracts;
+using EveCM.Data.Repositories.PSQL;
+using EveCM.Managers;
+using EveCM.Managers.Contracts;
+using EveCM.Managers.Contracts.Profile;
 using EveCM.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -53,7 +58,19 @@ namespace EveCM
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -._@+";
             });
 
+            var eveSection = Configuration.GetSection("EVE");
+            services.Configure<EveSettings>(eveSection);
+
+            RegisterDIBindings(services);
+
             services.AddMvc();
+        }
+
+        private void RegisterDIBindings(IServiceCollection services)
+        {
+            services.AddTransient<IOAuthManager, OAuthManager>();
+            services.AddTransient<ICharacterRepository, CharacterRepository>();
+            services.AddTransient<IProfileManager, ProfileManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

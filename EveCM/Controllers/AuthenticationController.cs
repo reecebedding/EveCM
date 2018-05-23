@@ -105,6 +105,19 @@ namespace EveCM.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        [HttpGet("callback")]
+        [AllowAnonymous]
+        public async Task<IActionResult> OAuthCallback(string code)
+        {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("AssociateCode", "Profile", new { code });
+            else
+            {
+                //handle OAuth logons here
+                return RedirectToAction("login");
+            }
+        }
+
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
