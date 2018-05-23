@@ -57,9 +57,13 @@ namespace EveCM.Controllers
         }
 
         [HttpGet("associate")]
-        public IActionResult Associate()
+        public IActionResult Associate(int? characterId = null)
         {
-            return Redirect(_oauthManager.EVERedirectUrl());
+            if (characterId == null)
+                return Redirect(_oauthManager.EVERedirectUrl());
+            else
+                _profileManager.AssociateCharacter(User, (int)characterId);
+            return RedirectToAction("Index");
         }
 
         [HttpGet("associate-code")]

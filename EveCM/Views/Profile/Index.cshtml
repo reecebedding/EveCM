@@ -60,8 +60,12 @@
                                     <img src="@EveImageHelper.GetCharacterAvatar(character.CharacterID.ToString(), EveImageHelper.CharacterAvatarSize.One_Twenty_Eight)" alt="person" class="rounded-circle mx-auto d-block">
                                     <p class="text-center">
                                         @character.CharacterName
+                                        @if (!string.Equals(User.Identity.PrimaryCharacterId(), character.CharacterID.ToString()))
+                                        {
+                                            <br />
+                                            <a asp-controller="Profile" asp-route-characterID="@character.CharacterID" asp-action="Associate" role="button" class="btn btn-xs btn-primary">Make Primary</a>
+                                        }
                                     </p>
-
                                 </div>
                             }
                         }
