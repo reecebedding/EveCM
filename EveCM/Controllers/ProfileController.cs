@@ -60,7 +60,7 @@ namespace EveCM.Controllers
         public IActionResult Associate(int? characterId = null)
         {
             if (characterId == null)
-                return Redirect(_oauthManager.EVERedirectUrl());
+                return RedirectToAction("ExternalLogin", "Authentication");
             else
                 _profileManager.AssociateCharacter(User, (int)characterId);
             return RedirectToAction("Index");

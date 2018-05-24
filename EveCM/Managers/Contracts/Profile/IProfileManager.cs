@@ -10,6 +10,7 @@ namespace EveCM.Managers.Contracts.Profile
     public interface IProfileManager
     {
         void AssociateCharacter(ClaimsPrincipal principal, CharacterDetails character);
+        void AssociateCharacter(ApplicationUser user, CharacterDetails character);
         void AssociateCharacter(ClaimsPrincipal principal, int characterId);
     }
 }

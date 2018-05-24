@@ -27,6 +27,11 @@ namespace EveCM.Managers
         public void AssociateCharacter(ClaimsPrincipal principal, CharacterDetails character)
         {
             ApplicationUser user = _userManager.GetUserAsync(principal).Result;
+            AssociateCharacter(user, character);
+        }
+
+        public void AssociateCharacter(ApplicationUser user, CharacterDetails character)
+        {
             IEnumerable<CharacterDetails> existingCharacters = _characterRepository.GetCharactersForUser(user);
 
             try

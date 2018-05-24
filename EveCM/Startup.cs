@@ -63,6 +63,8 @@ namespace EveCM
 
             RegisterDIBindings(services);
 
+            services.AddMemoryCache();
+            services.AddSession();
             services.AddMvc();
         }
 
@@ -90,6 +92,8 @@ namespace EveCM
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
