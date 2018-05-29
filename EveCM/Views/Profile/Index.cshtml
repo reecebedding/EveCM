@@ -1,4 +1,5 @@
-﻿@model Profile
+﻿@inject  UserManager<ApplicationUser> UserManager
+@model Profile
 @{
     ViewData["Title"] = "Profile";
 }
@@ -17,7 +18,7 @@
     <div class="col-md-3 vertical-divider-right">
         <h1>Profile</h1>
         <section>
-            <img src="@User.Identity.PortraitUrl(EveImageHelper.CharacterAvatarSize.Two_Fifty_Six)" alt="person" class="img-fluid rounded-circle mx-auto d-block">
+            <img src="@User.PortraitUrl(UserManager, EveImageHelper.CharacterAvatarSize.Two_Fifty_Six)" alt="person" class="img-fluid rounded-circle mx-auto d-block">
 
             <div class="form-group">
                 <label asp-for="UserName"></label>
@@ -60,7 +61,7 @@
                                     <img src="@EveImageHelper.GetCharacterAvatar(character.CharacterID.ToString(), EveImageHelper.CharacterAvatarSize.One_Twenty_Eight)" alt="person" class="rounded-circle mx-auto d-block">
                                     <p class="text-center">
                                         @character.CharacterName
-                                        @if (!string.Equals(User.Identity.PrimaryCharacterId(), character.CharacterID.ToString()))
+                                        @if (!string.Equals(User.PrimaryCharacterId(UserManager), character.CharacterID.ToString()))
                                         {
                                             <br />
                                             <a asp-controller="Profile" asp-route-characterID="@character.CharacterID" asp-action="Associate" role="button" class="btn btn-xs btn-primary">Make Primary</a>

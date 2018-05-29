@@ -1,4 +1,4 @@
-﻿using EveCM.Managers.Contracts;
+﻿using EveCM.Managers;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;

@@ -1,9 +1,13 @@
-﻿using EveCM.Utils;
+﻿using EveCM.Models;
+using EveCM.Utils;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EveCM.Tests.Authentication
 {
@@ -24,7 +28,16 @@ namespace EveCM.Tests.Authentication
                 })
             );
 
-            string result = user.Identity.PortraitUrl();
+            ApplicationUser expectedApplicationUser = new ApplicationUser()
+            {
+                PrimaryCharacterId = characterId,
+                Id = "1"
+            };
+
+            Mock<UserManager<ApplicationUser>> mockUserManager = MockUserManager<ApplicationUser>();
+            mockUserManager.Setup(x => x.GetUserAsync(user)).ReturnsAsync(expectedApplicationUser);
+
+            string result = IdentityExtensions.PortraitUrl(user, mockUserManager.Object);
 
             Assert.AreEqual(expectedUrl, result);
         }
@@ -44,9 +57,27 @@ namespace EveCM.Tests.Authentication
                 })
             );
 
-            string result = user.Identity.PortraitUrl(size);
+            ApplicationUser expectedApplicationUser = new ApplicationUser()
+            {
+                PrimaryCharacterId = characterId,
+                Id = "1"
+            };
+
+            Mock<UserManager<ApplicationUser>> mockUserManager = MockUserManager<ApplicationUser>();
+            mockUserManager.Setup(x => x.GetUserAsync(user)).ReturnsAsync(expectedApplicationUser);
+
+            string result = IdentityExtensions.PortraitUrl(user, mockUserManager.Object, size);
 
             Assert.AreEqual(expectedUrl, result);
+        }
+
+        private static Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
+        {
+            var store = new Mock<IUserStore<TUser>>();
+            var mgr = new Mock<UserManager<TUser>>(store.Object, null, null, null, null, null, null, null, null);
+            mgr.Object.UserValidators.Add(new UserValidator<TUser>());
+            mgr.Object.PasswordValidators.Add(new PasswordValidator<TUser>());
+            return mgr;
         }
     }
 }

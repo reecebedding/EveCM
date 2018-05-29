@@ -1,6 +1,5 @@
 ﻿using EveCM.Data.Repositories.Contracts;
-using EveCM.Managers.Contracts;
-using EveCM.Managers.Contracts.Profile;
+using EveCM.Managers.Profile.Contracts;
 using EveCM.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -9,7 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace EveCM.Managers
+namespace EveCM.Managers.Profile
 {
     public class ProfileManager : IProfileManager
     {
@@ -38,9 +37,8 @@ namespace EveCM.Managers
             {
                 _characterRepository.AddCharacterToAccount(user, character);
                 if (existingCharacters.Count() == 0)
-                {
-                    AddClaim(user, "PrimaryCharacterId", character.CharacterID.ToString());
-                }
+                    SetCharacterAsPrimary(user, character);
+
             }
             catch (Data.Repositories.PSQL.Exceptions.CharacterAlreadyAssignedException ex)
             {
@@ -54,14 +52,13 @@ namespace EveCM.Managers
             ApplicationUser user = _userManager.GetUserAsync(principal).Result;
 
             if (string.Equals(characterDetails.AccountID, user.Id.ToString()))
-                AddClaim(user, "PrimaryCharacterId", characterId.ToString());
+                SetCharacterAsPrimary(user, characterDetails);
         }
 
-        private void AddClaim(ApplicationUser user, string name, object value)
+        public void SetCharacterAsPrimary(ApplicationUser user, CharacterDetails character)
         {
-            _userManager.AddClaimAsync(user, new Claim(name, value.ToString())).Wait();
+            user.PrimaryCharacterId = character.CharacterID.ToString();
             _userManager.UpdateAsync(user).Wait();
-            _signInManager.RefreshSignInAsync(user).Wait();
         }
     }
 }

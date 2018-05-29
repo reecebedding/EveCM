@@ -1,0 +1,36 @@
+﻿@using EveCM.Models.Bulletin.ViewModels
+
+@model IEnumerable<NotificationViewModel>
+
+<div class="card">
+    <div class="card-header">
+        Notifications
+    </div>
+    @if (Model.Count() > 0)
+    {
+        int counter = 0;
+        foreach (NotificationViewModel notification in Model.OrderBy(x => x.Date).Reverse())
+        {
+            counter++;
+            <div class="card-body">
+                <h5 class="card-title">@notification.Title</h5>
+                <p class="card-text">@notification.Content.</p>
+                <footer class="blockquote-footer">
+                    <img src="@EveImageHelper.GetCharacterAvatar(notification.AuthorCharacter.PrimaryCharacterId.ToString(), EveImageHelper.CharacterAvatarSize.Thirty_Two)" />
+                    @notification.AuthorCharacter.UserName
+                    | @notification.Date.ToShortDateString()
+                </footer>
+            </div>
+            if (counter < Model.Count())
+            {
+                <hr />
+            }
+        }
+    }
+    else
+    {
+        <div class="card-body">
+            <p class="card-text">No notifictions</p>
+        </div>
+    }
+</div>

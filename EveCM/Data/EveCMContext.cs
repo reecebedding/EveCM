@@ -1,4 +1,5 @@
 ﻿using EveCM.Models;
+using EveCM.Models.Bulletin;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace EveCM.Data
     public class EveCMContext : IdentityDbContext<ApplicationUser>
     {
         public virtual DbSet<CharacterDetails> CharacterDetails { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
 
         public EveCMContext(DbContextOptions<EveCMContext> options)
             : base(options)

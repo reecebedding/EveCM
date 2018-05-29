@@ -5,12 +5,15 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using EveCM.Data;
 using EveCM.Data.Repositories.Contracts;
 using EveCM.Data.Repositories.PSQL;
 using EveCM.Managers;
-using EveCM.Managers.Contracts;
-using EveCM.Managers.Contracts.Profile;
+using EveCM.Managers.Bulletin;
+using EveCM.Managers.Bulletin.Contracts;
+using EveCM.Managers.Profile;
+using EveCM.Managers.Profile.Contracts;
 using EveCM.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -66,13 +69,17 @@ namespace EveCM
             services.AddMemoryCache();
             services.AddSession();
             services.AddMvc();
+            services.AddAutoMapper();
         }
 
         private void RegisterDIBindings(IServiceCollection services)
         {
             services.AddTransient<IOAuthManager, OAuthManager>();
-            services.AddTransient<ICharacterRepository, CharacterRepository>();
             services.AddTransient<IProfileManager, ProfileManager>();
+            services.AddTransient<INotificationManager, NotificationManager>();
+
+            services.AddTransient<ICharacterRepository, CharacterRepository>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
