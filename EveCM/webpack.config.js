@@ -4,7 +4,8 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const TSLintPlugin = require('tslint-webpack-plugin');
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const { CheckerPlugin } = require('awesome-typescript-loader');
 
 const outputPath = path.resolve(__dirname, 'wwwroot');
 const clientPath = './ClientApp';
@@ -13,14 +14,16 @@ module.exports = function (env, argv) {
 
     const isDevelopmentMode = argv.mode === 'development';
 
-    const config = {
+    const smp = new SpeedMeasurePlugin();
+
+    const config = smp.wrap({
         entry: {
             vendor: path.resolve(clientPath, 'vendor.js'),
-            app: path.resolve(clientPath, 'app', 'app.ts')
+            app: path.resolve(clientPath, 'app', 'app.tsx')
         },
         devtool: 'inline-source-map',
         output: {
-            filename: 'js/[name].[hash].js',
+            filename: isDevelopmentMode ? 'js/[name].js' : 'js/[name].[hash].js',
             path: outputPath
         },
         plugins: [
@@ -29,11 +32,9 @@ module.exports = function (env, argv) {
                 jQuery: "jquery"
             }),
             new CleanWebpackPlugin([
-                'css/*.*',
-                'js/*.*',
-                'images/*.*',
-                'favicon.ico'
+                '*'
             ], {
+                    exclude: [],
                     root: outputPath
                 }),
             new CopyWebpackPlugin([
@@ -41,31 +42,13 @@ module.exports = function (env, argv) {
                 { from: path.resolve(clientPath, 'assets', 'images', 'favicon.ico'), to: outputPath }
             ]),
             new MiniCssExtractPlugin({
-                filename: "css/[name].[hash].css",
-                chunkFilename: "[name].[hash].css"
+                filename: isDevelopmentMode ? 'css/[name].css' : 'css/[name].[hash].css',
+                chunkFilename: isDevelopmentMode ? '[name].css' : '[name].[hash].css'
             }),
-            new TSLintPlugin({
-                files: [path.resolve(clientPath, '**/*.ts')],
-                format: 'prose',
-                force: false
-            })
+            new CheckerPlugin()
         ],
         module: {
             rules: [
-                {
-                    test: /\.css$/,
-                    use: [
-                        'style-loader',
-                        MiniCssExtractPlugin.loader,
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                sourceMap: true,
-                                minimize: !isDevelopmentMode
-                            }
-                        }
-                    ]
-                },
                 {
                     test: /\.(png|woff|woff2|eot|ttf|svg)$/,
                     use: [{
@@ -77,9 +60,9 @@ module.exports = function (env, argv) {
                 },
                 {
                     test: /\.scss$/,
-                    use: [{
-                        loader: "style-loader"
-                    }, MiniCssExtractPlugin.loader, {
+                    use: [
+                    MiniCssExtractPlugin.loader,
+                    {
                         loader: "css-loader", options: {
                             sourceMap: true
                         }
@@ -91,36 +74,25 @@ module.exports = function (env, argv) {
                     }]
                 },
                 {
-                    test: /\.ts$/,
-                    use: [
-                        {
-                            loader: 'babel-loader',
-                            options: {
-                                babelrc: true
-                            }
-                        },
-                        'ts-loader'
-                    ],
-                    exclude: /node_modules/
-                },
-                {
-                    test: /\.js$/,
-                    exclude: [
-                        /node_modules/,
-                    ],
-                    use: {
-                        loader: 'babel-loader',
+                    test: /\.tsx?$/,
+                    use: [{
+                        loader: 'awesome-typescript-loader',
                         options: {
-                            babelrc: true
+                            useBabel: true,
+                            babelOptions: {
+                                babelrc: true
+                            },
+                            useCache: true
                         }
-                    }
+                    }],
+                    exclude: /node_modules/
                 }
             ]
         },
         resolve: {
-            extensions: ['.ts', '.js']
+            extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
         }
-    }
+    });
 
     return config;
 }
