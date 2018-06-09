@@ -8,7 +8,7 @@ namespace EveCM.Data.Repositories.Contracts
 {
     public interface INotificationRepository
     {
-        IEnumerable<Notification> GetNotifications(int count = 3);
+        IEnumerable<Notification> GetNotifications(out int totalCount, int count = 3);
         void SaveNotification(Notification notification);
     }
 }

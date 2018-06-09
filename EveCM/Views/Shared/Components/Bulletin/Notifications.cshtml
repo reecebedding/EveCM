@@ -4,7 +4,7 @@
 
 <div class="card">
     <div class="card-header">
-        Notifications
+        Notifications <span class="float-right text-gray">Showing @Model.Count() latest</span>
     </div>
     @if (Model.Count() > 0)
     {
@@ -30,7 +30,27 @@
     else
     {
         <div class="card-body">
-            <p class="card-text">No notifictions</p>
+            <p class="card-text">No notifications</p>
         </div>
     }
+</div>
+<div class="card">
+    <div class="card-header">
+        New Notification
+    </div>
+    <div class="card-body">
+       <form asp-action="bulletin" asp-controller="bulletin" method="post">
+           <div class="form-group">
+               <label>Title:</label>
+               <input type="text" name="Title" class="form-control" />
+           </div>
+           <div class="form-group">
+               <label>Message:</label>
+               <textarea name="Content" class="form-control"></textarea>
+           </div>
+           <div class="form-group">
+               <input type="submit" class="btn btn-primary" value="Save"/>
+           </div>
+       </form>
+    </div>
 </div>

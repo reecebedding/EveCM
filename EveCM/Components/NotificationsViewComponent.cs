@@ -30,7 +30,7 @@ namespace EveCM.Components
             List<NotificationViewModel> notifications = new List<NotificationViewModel>();
             if (User.Identity.IsAuthenticated)
             {
-                notifications = _mapper.Map<IEnumerable<NotificationViewModel>>(_notificationManager.GetNotifications()).ToList();
+                notifications = _mapper.Map<IEnumerable<NotificationViewModel>>(_notificationManager.GetNotifications(out int totalCount)).ToList();
                 notifications.ForEach(x => x.AuthorCharacter = _userManager.FindByIdAsync(x.AuthorId).Result);
             }
             return View("~/Views/Shared/Components/Bulletin/Notifications.cshtml", notifications);
