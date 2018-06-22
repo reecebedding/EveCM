@@ -5,10 +5,13 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-const { CheckerPlugin } = require('awesome-typescript-loader');
 
 const outputPath = path.resolve(__dirname, 'wwwroot');
 const clientPath = './ClientApp';
+
+function GetPathToComponentEntryFile(parentDir, fileName) {
+    return path.resolve(clientPath, 'app', 'Components', parentDir, fileName);
+}
 
 module.exports = function (env, argv) {
 
@@ -19,9 +22,11 @@ module.exports = function (env, argv) {
     const config = smp.wrap({
         entry: {
             vendor: path.resolve(clientPath, 'vendor.js'),
-            app: path.resolve(clientPath, 'app', 'app.tsx')
+            global: path.resolve(clientPath, 'app', 'global.ts'),
+            
+            home: GetPathToComponentEntryFile('Home', 'homePage.tsx')
         },
-        devtool: 'inline-source-map',
+        devtool: isDevelopmentMode ? 'inline-source-map' : '',
         output: {
             filename: isDevelopmentMode ? 'js/[name].js' : 'js/[name].[hash].js',
             path: outputPath
@@ -44,8 +49,7 @@ module.exports = function (env, argv) {
             new MiniCssExtractPlugin({
                 filename: isDevelopmentMode ? 'css/[name].css' : 'css/[name].[hash].css',
                 chunkFilename: isDevelopmentMode ? '[name].css' : '[name].[hash].css'
-            }),
-            new CheckerPlugin()
+            })
         ],
         module: {
             rules: [
@@ -54,36 +58,35 @@ module.exports = function (env, argv) {
                     use: [{
                         loader: 'url-loader',
                         options: {
-                            limit: 100000
+                            limit: 100000,
+                            name: 'fonts/[hash].[ext]'
                         }
                     }]
                 },
                 {
                     test: /\.scss$/,
                     use: [
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: "css-loader", options: {
-                            sourceMap: true
-                        }
-                    }, {
-                        loader: "sass-loader", options: {
-                            sourceMap: true,
-                            outputStyle: isDevelopmentMode ? "nested" : "compressed"
-                        }
-                    }]
+                        MiniCssExtractPlugin.loader,
+                        {
+                            loader: "css-loader", options: {
+                                sourceMap: true
+                            }
+                        }, {
+                            loader: "sass-loader", options: {
+                                sourceMap: true,
+                                outputStyle: isDevelopmentMode ? "nested" : "compressed"
+                            }
+                        }]
                 },
                 {
                     test: /\.tsx?$/,
                     use: [{
-                        loader: 'awesome-typescript-loader',
+                        loader: 'babel-loader',
                         options: {
-                            useBabel: true,
-                            babelOptions: {
-                                babelrc: true
-                            },
-                            useCache: true
+                            babelrc: true
                         }
+                    },{
+                        loader: 'tslint-loader'
                     }],
                     exclude: /node_modules/
                 }

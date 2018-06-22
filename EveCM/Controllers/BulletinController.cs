@@ -1,31 +1,32 @@
 ﻿using AutoMapper;
 using EveCM.Managers.Bulletin.Contracts;
 using EveCM.Models.Bulletin;
-using EveCM.Models.Bulletin.ViewModels;
+using EveCM.Models.Bulletin.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EveCM.Controllers
 {
     [Route("bulletin")]
     public class BulletinController : Controller
     {
-        private readonly INotificationManager _notificationManager;
+        private readonly IBulletinManager _bulletinManager;
         private readonly IMapper _mapper;
 
-        public BulletinController(INotificationManager notificationManager, IMapper mapper)
+        public BulletinController(IBulletinManager bulletinManager, IMapper mapper)
         {
-            _notificationManager = notificationManager;
+            _bulletinManager = bulletinManager;
             _mapper = mapper;
         }
 
-        [HttpPost("bulletin")]
-        public IActionResult SaveNewBulletin(NotificationViewModel newNotification)
+        [HttpGet("")]
+        public IActionResult GetAll()
         {
-            Notification notification = _mapper.Map<Notification>(newNotification);
-            
-            _notificationManager.SaveNewNotification(notification, User);
+            IEnumerable<Bulletin> bulletinData = _bulletinManager.GetBulletins(out int totalCount);
+            IEnumerable<BulletinDto> bulletingViewData = Mapper.Map<IEnumerable<BulletinDto>>(bulletinData);
 
-            return RedirectToAction("Index", "Home");
+            return Ok(bulletingViewData);
         }
     }
 }

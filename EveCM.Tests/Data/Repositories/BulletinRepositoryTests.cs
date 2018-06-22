@@ -14,13 +14,13 @@ using System.Text;
 namespace EveCM.Tests.Data.Repositories
 {
     [TestClass]
-    public class NotificationRepositoryTests
+    public class BulletinRepositoryTests
     {
         [TestMethod]
-        public void GetNotifications_Should_Return_DefaultOfTwo()
+        public void GetBulletins_Should_Return_DefaultOfTwo()
         {
             var options = new DbContextOptionsBuilder<EveCMContext>()
-               .UseInMemoryDatabase(databaseName: "GetNotification_Default")
+               .UseInMemoryDatabase(databaseName: "GetBulletins_Default")
                .Options;
 
             using (var context = new EveCMContext(options))
@@ -28,7 +28,7 @@ namespace EveCM.Tests.Data.Repositories
                 int count = 10;
                 for (int i = 1; i < count - 1; i++)
                 {
-                    context.Notifications.Add(new Notification()
+                    context.Bulletins.Add(new Bulletin()
                     {
                         Id = i,
                         AuthorId = i.ToString(),
@@ -42,20 +42,20 @@ namespace EveCM.Tests.Data.Repositories
 
             using (var context = new EveCMContext(options))
             {
-                INotificationRepository repository = new NotificationRepository(context);
-                var result = repository.GetNotifications();
+                IBulletinRepository repository = new BulletinRepository(context);
+                var result = repository.GetBulletins(out int total);
 
                 Assert.AreEqual(3, result.Count());
             }
         }
 
         [TestMethod]
-        public void GetNotifications_Should_Return_SpecifiedCount()
+        public void GetBulletins_Should_Return_SpecifiedCount()
         {
             int expectedCount = 5;
 
             var options = new DbContextOptionsBuilder<EveCMContext>()
-                .UseInMemoryDatabase(databaseName: "GetNotification_Specific_Count")
+                .UseInMemoryDatabase(databaseName: "GetBulletins_Specific_Count")
                 .Options;
 
             using (var context = new EveCMContext(options))
@@ -63,7 +63,7 @@ namespace EveCM.Tests.Data.Repositories
                 int count = 10;
                 for (int i = 1; i < count - 1; i++)
                 {
-                    context.Notifications.Add(new Notification()
+                    context.Bulletins.Add(new Bulletin()
                     {
                         Id = i,
                         AuthorId = i.ToString(),
@@ -77,18 +77,18 @@ namespace EveCM.Tests.Data.Repositories
 
             using (var context = new EveCMContext(options))
             {
-                INotificationRepository repository = new NotificationRepository(context);
-                var result = repository.GetNotifications(expectedCount);
+                IBulletinRepository repository = new BulletinRepository(context);
+                var result = repository.GetBulletins(out int total, expectedCount);
 
                 Assert.AreEqual(expectedCount, result.Count());
             }
         }
 
         [TestMethod]
-        public void GetNotifications_Should_OrderByRecent()
+        public void GetBulletins_Should_OrderByRecent()
         {
             var options = new DbContextOptionsBuilder<EveCMContext>()
-               .UseInMemoryDatabase(databaseName: "GetNotification_Order")
+               .UseInMemoryDatabase(databaseName: "GetBulletins_Order")
                .Options;
 
             using (var context = new EveCMContext(options))
@@ -96,7 +96,7 @@ namespace EveCM.Tests.Data.Repositories
                 int count = 10;
                 for (int i = count; i >= 0; i--)
                 {
-                    context.Notifications.Add(new Notification()
+                    context.Bulletins.Add(new Bulletin()
                     {
                         //allow for id = 0
                         Id = i + 1,
@@ -112,8 +112,8 @@ namespace EveCM.Tests.Data.Repositories
 
             using (var context = new EveCMContext(options))
             {
-                INotificationRepository repository = new NotificationRepository(context);
-                var result = repository.GetNotifications();
+                IBulletinRepository repository = new BulletinRepository(context);
+                var result = repository.GetBulletins(out int total);
 
 
                 Assert.AreEqual(3, result.Count());
@@ -123,14 +123,14 @@ namespace EveCM.Tests.Data.Repositories
         }
 
         [TestMethod]
-        public void SaveNotification_Should_SaveToDatabase()
+        public void SaveBulletin_Should_SaveToDatabase()
         {
             var options = new DbContextOptionsBuilder<EveCMContext>()
-               .UseInMemoryDatabase(databaseName: "GetNotification_Order")
+               .UseInMemoryDatabase(databaseName: "GetBulletin_Order")
                .Options;
 
 
-            Notification notification = new Notification()
+            Bulletin bulletin = new Bulletin()
             {
                 AuthorId = "1",
                 Content = "TestContent",
@@ -141,14 +141,14 @@ namespace EveCM.Tests.Data.Repositories
 
             using (var context = new EveCMContext(options))
             {
-                INotificationRepository notificationRepository = new NotificationRepository(context);
-                notificationRepository.SaveNotification(notification);
+                IBulletinRepository bulletinRepository = new BulletinRepository(context);
+                bulletinRepository.SaveBulletin(bulletin);
             }
             using (var context = new EveCMContext(options))
             {
-                Notification savedNotification = context.Notifications.Where(x => x.Id == notification.Id).First();
+                Bulletin savedBulletin = context.Bulletins.Where(x => x.Id == bulletin.Id).First();
 
-                Assert.AreEqual(notification.Id, savedNotification.Id);
+                Assert.AreEqual(bulletin.Id, savedBulletin.Id);
             }
         }
     }

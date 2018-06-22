@@ -11,9 +11,10 @@ using System;
 namespace EveCM.Data.Migrations
 {
     [DbContext(typeof(EveCMContext))]
-    partial class EveCMContextModelSnapshot : ModelSnapshot
+    [Migration("20180622133846_UpdateNotificationsToBulletins")]
+    partial class UpdateNotificationsToBulletins
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

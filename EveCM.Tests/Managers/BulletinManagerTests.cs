@@ -14,15 +14,15 @@ using System.Text;
 namespace EveCM.Tests.Managers
 {
     [TestClass]
-    public class NotificationManagerTests
+    public class BulletinManagerTests
     {
         [TestMethod]
-        public void GetNotifications_Should_Return_DefaultCount()
+        public void GetBulletins_Should_Return_DefaultCount()
         {
-            List<Notification> notifications = new List<Notification>();
+            List<Bulletin> bulletins = new List<Bulletin>();
             for (int i = 0; i < 3; i++)
             {
-                notifications.Add(new Notification()
+                bulletins.Add(new Bulletin()
                 {
                     AuthorId = "12345",
                     Content = $"Test content: {i}",
@@ -44,27 +44,28 @@ namespace EveCM.Tests.Managers
                 Id = "1235"
             };
 
-            Mock<INotificationRepository> mockNotificationRepository = new Mock<INotificationRepository>();
-            mockNotificationRepository.Setup(x => x.GetNotifications(It.IsAny<int>())).Returns(notifications);
+            Mock<IBulletinRepository> mockNotificationRepository = new Mock<IBulletinRepository>();
+            int outVal;
+            mockNotificationRepository.Setup(x => x.GetBulletins(out outVal, It.IsAny<int>())).Returns(bulletins);
 
             Mock<UserManager<ApplicationUser>> userManager = MockUserManager<ApplicationUser>();
             userManager.Setup(x => x.GetUserAsync(claimsUser)).ReturnsAsync(user);
 
-            NotificationManager manager = new NotificationManager(mockNotificationRepository.Object, userManager.Object);
+            BulletinManager manager = new BulletinManager(mockNotificationRepository.Object, userManager.Object);
 
-            var result = manager.GetNotifications();
+            var result = manager.GetBulletins(out int total);
 
             Assert.AreEqual(3, result.Count());
-            mockNotificationRepository.Verify(x => x.GetNotifications(It.IsAny<int>()), Times.Once);
+            mockNotificationRepository.Verify(x => x.GetBulletins(out outVal, It.IsAny<int>()), Times.Once);
         }
 
         [TestMethod]
-        public void GetNotifications_Should_Return_SpecifiedCount()
+        public void GetBulletins_Should_Return_SpecifiedCount()
         {
-            List<Notification> notifications = new List<Notification>();
+            List<Bulletin> bulletins = new List<Bulletin>();
             for (int i = 0; i < 5; i++)
             {
-                notifications.Add(new Notification()
+                bulletins.Add(new Bulletin()
                 {
                     AuthorId = "12345",
                     Content = $"Test content: {i}",
@@ -90,24 +91,25 @@ namespace EveCM.Tests.Managers
             userManager.Setup(x => x.GetUserAsync(claimsUser)).ReturnsAsync(user);
 
             int expectedCount = 5;
+            int outVal;
 
-            Mock<INotificationRepository> mockNotificationRepository = new Mock<INotificationRepository>();
-            mockNotificationRepository.Setup(x => x.GetNotifications(It.IsAny<int>())).Returns(notifications);
+            Mock<IBulletinRepository> mockRepository = new Mock<IBulletinRepository>();
+            mockRepository.Setup(x => x.GetBulletins(out outVal, It.IsAny<int>())).Returns(bulletins);
 
-            NotificationManager manager = new NotificationManager(mockNotificationRepository.Object, userManager.Object);
+            BulletinManager manager = new BulletinManager(mockRepository.Object, userManager.Object);
 
-            var result = manager.GetNotifications(expectedCount);
+            var result = manager.GetBulletins(out outVal, expectedCount);
 
             Assert.AreEqual(expectedCount, result.Count());
-            mockNotificationRepository.Verify(x => x.GetNotifications(expectedCount), Times.Once);
+            mockRepository.Verify(x => x.GetBulletins(out outVal, expectedCount), Times.Once);
         }
 
         [TestMethod]
-        public void SaveNotifications_Should_Save_Notification()
+        public void SaveBulletins_Should_Save_Notification()
         {
             int expectedCount = 5;
 
-            Notification notification = new Notification()
+            Bulletin bulletin = new Bulletin()
             {
                 Id = 123,
                 Date = DateTime.Now,
@@ -131,19 +133,19 @@ namespace EveCM.Tests.Managers
             Mock<UserManager<ApplicationUser>> userManager = MockUserManager<ApplicationUser>();
             userManager.Setup(x => x.GetUserAsync(claimsUser)).ReturnsAsync(user);
 
-            Mock<INotificationRepository> mockNotificationRepository = new Mock<INotificationRepository>();
+            Mock<IBulletinRepository> mockRepository = new Mock<IBulletinRepository>();
 
-            NotificationManager manager = new NotificationManager(mockNotificationRepository.Object, userManager.Object);
+            BulletinManager manager = new BulletinManager(mockRepository.Object, userManager.Object);
 
-            manager.SaveNewNotification(notification);
+            manager.SaveNewBulletin(bulletin);
 
-            mockNotificationRepository.Verify(x => x.SaveNotification(notification), Times.Once);
+            mockRepository.Verify(x => x.SaveBulletin(bulletin), Times.Once);
         }
 
         [TestMethod]
-        public void SaveNotifications_Should_Include_Date()
+        public void SaveBulletins_Should_Include_Date()
         {
-            Notification notification = new Notification()
+            Bulletin bulletin = new Bulletin()
             {
                 Id = 123,
                 Title = "TestTitle",
@@ -159,25 +161,25 @@ namespace EveCM.Tests.Managers
             Mock<UserManager<ApplicationUser>> userManager = MockUserManager<ApplicationUser>();
             userManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(user);
 
-            Notification notificationSaved = new Notification();
-            Mock<INotificationRepository> mockNotificationRepository = new Mock<INotificationRepository>();
-            mockNotificationRepository.Setup(x => x.SaveNotification(notification)).Callback((Notification Notification) =>
+            Bulletin bulletinSaved = new Bulletin();
+            Mock<IBulletinRepository> mockRepository = new Mock<IBulletinRepository>();
+            mockRepository.Setup(x => x.SaveBulletin(bulletin)).Callback((Bulletin Notification) =>
             {
-                notificationSaved = notification;
+                bulletinSaved = bulletin;
             });
 
-            NotificationManager manager = new NotificationManager(mockNotificationRepository.Object, userManager.Object);
+            BulletinManager manager = new BulletinManager(mockRepository.Object, userManager.Object);
 
-            manager.SaveNewNotification(notification);
+            manager.SaveNewBulletin(bulletin);
 
-            mockNotificationRepository.Verify(x => x.SaveNotification(notification), Times.Once);
-            Assert.AreEqual(DateTime.Now.ToShortDateString(), notificationSaved.Date.ToShortDateString());
+            mockRepository.Verify(x => x.SaveBulletin(bulletin), Times.Once);
+            Assert.AreEqual(DateTime.Now.ToShortDateString(), bulletinSaved.Date.ToShortDateString());
         }
 
         [TestMethod]
-        public void SaveNotifications_Should_Include_AuthorId()
+        public void SaveBulletins_Should_Include_AuthorId()
         {
-            Notification notification = new Notification()
+            Bulletin bulletin = new Bulletin()
             {
                 Id = 123,
                 Title = "TestTitle",
@@ -199,19 +201,19 @@ namespace EveCM.Tests.Managers
             Mock<UserManager<ApplicationUser>> userManager = MockUserManager<ApplicationUser>();
             userManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(user);
 
-            Notification notificationSaved = new Notification();
-            Mock<INotificationRepository> mockNotificationRepository = new Mock<INotificationRepository>();
-            mockNotificationRepository.Setup(x => x.SaveNotification(notification)).Callback((Notification Notification) =>
+            Bulletin bulletinSaved = new Bulletin();
+            Mock<IBulletinRepository> mockRepository = new Mock<IBulletinRepository>();
+            mockRepository.Setup(x => x.SaveBulletin(bulletin)).Callback((Bulletin Notification) =>
             {
-                notificationSaved = notification;
+                bulletinSaved = bulletin;
             });
 
-            NotificationManager manager = new NotificationManager(mockNotificationRepository.Object, userManager.Object);
+            BulletinManager manager = new BulletinManager(mockRepository.Object, userManager.Object);
 
-            manager.SaveNewNotification(notification, claimsUser);
+            manager.SaveNewBulletin(bulletin, claimsUser);
 
-            mockNotificationRepository.Verify(x => x.SaveNotification(notification), Times.Once);
-            Assert.AreEqual(user.Id, notificationSaved.AuthorId);
+            mockRepository.Verify(x => x.SaveBulletin(bulletin), Times.Once);
+            Assert.AreEqual(user.Id, bulletinSaved.AuthorId);
         }
 
         private static Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class

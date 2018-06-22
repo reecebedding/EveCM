@@ -8,7 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\app\app.ts" />
+    <Compile Remove="ClientApp\app\Components\Home\Notifications\**" />
+    <Content Remove="ClientApp\app\Components\Home\Notifications\**" />
+    <EmbeddedResource Remove="ClientApp\app\Components\Home\Notifications\**" />
+    <None Remove="ClientApp\app\Components\Home\Notifications\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\app\actions\actionTypes.ts" />
+    <None Remove="ClientApp\app\app.tsx" />
+    <None Remove="ClientApp\app\store\notificationReducer.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,7 +40,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\app\app.ts" />
+    <TypeScriptCompile Include="ClientApp\app\actions\actionTypes.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\common\bulletins\BulletinBoard.tsx" />
+    <TypeScriptCompile Include="ClientApp\app\reducers\bulletinReducer.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Shared\Components\" />
   </ItemGroup>
 
 </Project>

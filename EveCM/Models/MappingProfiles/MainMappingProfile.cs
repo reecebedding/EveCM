@@ -1,9 +1,5 @@
 ﻿using EveCM.Models.Bulletin;
-using EveCM.Models.Bulletin.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using EveCM.Models.Bulletin.Dtos;
 
 namespace EveCM.Models.MappingProfiles
 {
@@ -11,7 +7,10 @@ namespace EveCM.Models.MappingProfiles
     {
         public MainMappingProfile()
         {
-            CreateMap<Notification, NotificationViewModel>().ReverseMap();
+            CreateMap<Bulletin.Bulletin, BulletinDto>()
+                .ForPath(x => x.AuthorCharacter.CharacterId, opt => opt.MapFrom(y => y.Author.PrimaryCharacterId))
+                .ForPath(x => x.AuthorCharacter.UserName, opt => opt.MapFrom(y => y.Author.UserName))
+                .ReverseMap();
         }
     }
 }

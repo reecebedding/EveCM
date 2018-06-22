@@ -6,11 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - evecm</title>
 
-    <link rel="stylesheet" asp-href-include="~/css/vendor.*.css" />
-    <link rel="stylesheet" asp-href-include="~/css/app.*.css" />
+    <link rel="stylesheet" asp-href-include="~/css/vendor*.css" />
+    <link rel="stylesheet" asp-href-include="~/css/global*.css" />
 </head>
 <body>
-
     <nav class="side-navbar">
         <div class="side-navbar-wrapper">
             <div class="sidenav-header d-flex align-items-center justify-content-center">
@@ -78,10 +77,9 @@
             </div>
         </section>
     </div>
-
-    <script asp-src-include="~/js/vendor.*.js" asp-append-version="true"></script>
-    <script asp-src-include="~/js/app.*.js" asp-append-version="true"></script>
-
+    <script asp-src-include="~/js/vendor*.js" asp-append-version="true"></script>
+    <script asp-src-include="~/js/global*.js" asp-append-version="true"></script>
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>

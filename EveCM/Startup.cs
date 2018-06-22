@@ -76,10 +76,10 @@ namespace EveCM
         {
             services.AddTransient<IOAuthManager, OAuthManager>();
             services.AddTransient<IProfileManager, ProfileManager>();
-            services.AddTransient<INotificationManager, NotificationManager>();
+            services.AddTransient<IBulletinManager, BulletinManager>();
 
             services.AddTransient<ICharacterRepository, CharacterRepository>();
-            services.AddTransient<INotificationRepository, NotificationRepository>();
+            services.AddTransient<IBulletinRepository, BulletinRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

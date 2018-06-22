@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace EveCM.Data.Repositories.Contracts
 {
-    public interface INotificationRepository
+    public interface IBulletinRepository
     {
-        IEnumerable<Notification> GetNotifications(out int totalCount, int count = 3);
-        void SaveNotification(Notification notification);
+        IEnumerable<Bulletin> GetBulletins(out int totalCount, int count = 3);
+        void SaveBulletin(Bulletin bulletin);
     }
 }

@@ -4,8 +4,10 @@
 
 <div class="col-md-5">
     <div>
-        <section>
-            @await Component.InvokeAsync("Notifications")
-        </section>
+        <section id="bulletin-board"></section>
     </div>
 </div>
+
+@section scripts {
+    <script asp-src-include="~/js/home*.js" asp-append-version="true"></script>
+}

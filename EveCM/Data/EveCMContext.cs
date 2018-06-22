@@ -13,7 +13,7 @@ namespace EveCM.Data
     public class EveCMContext : IdentityDbContext<ApplicationUser>
     {
         public virtual DbSet<CharacterDetails> CharacterDetails { get; set; }
-        public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<Bulletin> Bulletins { get; set; }
 
         public EveCMContext(DbContextOptions<EveCMContext> options)
             : base(options)
