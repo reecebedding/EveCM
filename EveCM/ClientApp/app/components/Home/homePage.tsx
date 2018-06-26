@@ -6,9 +6,11 @@ import configureStore from '../../store/configureStore';
 import BulletinBoard from '../common/bulletins/BulletinBoard';
 
 import { loadBulletins } from '../../actions/bulletinActions';
+import { loadCurrentUser } from '../../actions/userActions';
 
 const store = configureStore();
 store.dispatch(loadBulletins());
+store.dispatch(loadCurrentUser());
 
 ReactDOM.render(
     <Provider store={store}>

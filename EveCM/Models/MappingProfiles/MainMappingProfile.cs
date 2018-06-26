@@ -11,6 +11,9 @@ namespace EveCM.Models.MappingProfiles
                 .ForPath(x => x.AuthorCharacter.CharacterId, opt => opt.MapFrom(y => y.Author.PrimaryCharacterId))
                 .ForPath(x => x.AuthorCharacter.UserName, opt => opt.MapFrom(y => y.Author.UserName))
                 .ReverseMap();
+
+            CreateMap<ApplicationUserDto, ApplicationUser>()
+                .ReverseMap();
         }
     }
 }

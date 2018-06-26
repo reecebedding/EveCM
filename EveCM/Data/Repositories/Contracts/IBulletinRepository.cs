@@ -8,7 +8,8 @@ namespace EveCM.Data.Repositories.Contracts
 {
     public interface IBulletinRepository
     {
-        IEnumerable<Bulletin> GetBulletins(out int totalCount, int count = 3);
-        void SaveBulletin(Bulletin bulletin);
+        IEnumerable<Bulletin> GetBulletins(out int totalCount, int? count = null);
+        Bulletin GetBulletin(int id);
+        Bulletin SaveBulletin(Bulletin bulletin);
     }
 }

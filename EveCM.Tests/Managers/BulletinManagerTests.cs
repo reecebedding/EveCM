@@ -17,10 +17,11 @@ namespace EveCM.Tests.Managers
     public class BulletinManagerTests
     {
         [TestMethod]
-        public void GetBulletins_Should_Return_DefaultCount()
+        public void GetBulletins_Should_Return_All_ByDefault()
         {
             List<Bulletin> bulletins = new List<Bulletin>();
-            for (int i = 0; i < 3; i++)
+            int entityCount = 11;
+            for (int i = 0; i < entityCount; i++)
             {
                 bulletins.Add(new Bulletin()
                 {
@@ -44,19 +45,19 @@ namespace EveCM.Tests.Managers
                 Id = "1235"
             };
 
-            Mock<IBulletinRepository> mockNotificationRepository = new Mock<IBulletinRepository>();
-            int outVal;
-            mockNotificationRepository.Setup(x => x.GetBulletins(out outVal, It.IsAny<int>())).Returns(bulletins);
+            Mock<IBulletinRepository> mockBulletinRepository = new Mock<IBulletinRepository>();
+            int outVal = 0;
+            mockBulletinRepository.Setup(x => x.GetBulletins(out outVal, null)).Returns(bulletins);
 
             Mock<UserManager<ApplicationUser>> userManager = MockUserManager<ApplicationUser>();
             userManager.Setup(x => x.GetUserAsync(claimsUser)).ReturnsAsync(user);
 
-            BulletinManager manager = new BulletinManager(mockNotificationRepository.Object, userManager.Object);
+            BulletinManager manager = new BulletinManager(mockBulletinRepository.Object, userManager.Object);
 
             var result = manager.GetBulletins(out int total);
 
-            Assert.AreEqual(3, result.Count());
-            mockNotificationRepository.Verify(x => x.GetBulletins(out outVal, It.IsAny<int>()), Times.Once);
+            Assert.AreEqual(entityCount, result.Count());
+            mockBulletinRepository.Verify(x => x.GetBulletins(out outVal, It.IsAny<int?>()), Times.Once);
         }
 
         [TestMethod]
@@ -134,10 +135,12 @@ namespace EveCM.Tests.Managers
             userManager.Setup(x => x.GetUserAsync(claimsUser)).ReturnsAsync(user);
 
             Mock<IBulletinRepository> mockRepository = new Mock<IBulletinRepository>();
+            mockRepository.Setup(x => x.SaveBulletin(It.IsAny<Bulletin>()))
+                .Returns((Bulletin bulletinSaved) => { return bulletinSaved; });
 
             BulletinManager manager = new BulletinManager(mockRepository.Object, userManager.Object);
 
-            manager.SaveNewBulletin(bulletin);
+            manager.SaveNewBulletin(bulletin, claimsUser);
 
             mockRepository.Verify(x => x.SaveBulletin(bulletin), Times.Once);
         }
@@ -153,6 +156,13 @@ namespace EveCM.Tests.Managers
                 AuthorId = "12345"
             };
 
+            var claimsUser = new ClaimsPrincipal(
+                new ClaimsIdentity(
+                    new Claim[] {
+                         new Claim(ClaimTypes.Name, "fakeusername")
+                })
+           );
+
             ApplicationUser user = new ApplicationUser()
             {
                 Id = "1235"
@@ -163,17 +173,19 @@ namespace EveCM.Tests.Managers
 
             Bulletin bulletinSaved = new Bulletin();
             Mock<IBulletinRepository> mockRepository = new Mock<IBulletinRepository>();
-            mockRepository.Setup(x => x.SaveBulletin(bulletin)).Callback((Bulletin Notification) =>
-            {
-                bulletinSaved = bulletin;
-            });
+            mockRepository.Setup(x => x.SaveBulletin(bulletin))
+                .Returns((Bulletin bulletinPassed) => { return bulletinPassed; })
+                .Callback((Bulletin bulletinPassedIn) =>
+                {
+                    bulletinSaved = bulletin;
+                });
 
             BulletinManager manager = new BulletinManager(mockRepository.Object, userManager.Object);
 
-            manager.SaveNewBulletin(bulletin);
+            Bulletin actualBulletin = manager.SaveNewBulletin(bulletin, claimsUser);
 
             mockRepository.Verify(x => x.SaveBulletin(bulletin), Times.Once);
-            Assert.AreEqual(DateTime.Now.ToShortDateString(), bulletinSaved.Date.ToShortDateString());
+            Assert.AreEqual(DateTime.Now.ToShortDateString(), actualBulletin.Date.ToShortDateString());
         }
 
         [TestMethod]
@@ -201,12 +213,15 @@ namespace EveCM.Tests.Managers
             Mock<UserManager<ApplicationUser>> userManager = MockUserManager<ApplicationUser>();
             userManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(user);
 
-            Bulletin bulletinSaved = new Bulletin();
-            Mock<IBulletinRepository> mockRepository = new Mock<IBulletinRepository>();
-            mockRepository.Setup(x => x.SaveBulletin(bulletin)).Callback((Bulletin Notification) =>
+            Bulletin bulletinSaved = new Bulletin()
             {
-                bulletinSaved = bulletin;
-            });
+                Id = bulletin.Id,
+                Title = bulletin.Title,
+                Content = bulletin.Content,
+                AuthorId = user.Id
+            };
+            Mock<IBulletinRepository> mockRepository = new Mock<IBulletinRepository>();
+            mockRepository.Setup(x => x.SaveBulletin(bulletin)).Returns(bulletinSaved);
 
             BulletinManager manager = new BulletinManager(mockRepository.Object, userManager.Object);
 

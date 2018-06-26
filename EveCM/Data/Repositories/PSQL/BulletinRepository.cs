@@ -16,17 +16,30 @@ namespace EveCM.Data.Repositories.PSQL
             db = context;
         }
 
-        public IEnumerable<Bulletin> GetBulletins(out int totalCount, int count = 3)
+        public Bulletin GetBulletin(int id)
         {
-            IEnumerable<Bulletin> bulletins = db.Bulletins.OrderByDescending(x => x.Date).Take(count).ToList();
+            Bulletin bulletin = db.Bulletins.Where(x => x.Id == id).FirstOrDefault();
+            return bulletin;
+        }
+
+        public IEnumerable<Bulletin> GetBulletins(out int totalCount, int? count = null)
+        {
+            var query = db.Bulletins.OrderByDescending(x => x.Date).AsQueryable();
+            if (count != null)
+                query = query.Take((int)count);
+
+            IEnumerable<Bulletin> bulletins = query.ToList();
             totalCount = db.Bulletins.Count();
+
             return bulletins;
         }
 
-        public void SaveBulletin(Bulletin bulletin)
+        public Bulletin SaveBulletin(Bulletin bulletin)
         {
-            db.Bulletins.Add(bulletin);
+            Bulletin savedBulletin = db.Bulletins.Add(bulletin).Entity;
             db.SaveChanges();
+
+            return savedBulletin;
         }
     }
 }

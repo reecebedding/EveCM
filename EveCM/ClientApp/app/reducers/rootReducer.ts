@@ -1,8 +1,10 @@
 ﻿import { combineReducers } from 'redux';
 import bulletins from './bulletinReducer';
+import currentUser from './userReducer';
 
 const rootReducer = combineReducers({
-    bulletins
+    bulletins,
+    currentUser
 });
 
 export default rootReducer;

@@ -17,6 +17,7 @@
   <ItemGroup>
     <None Remove="ClientApp\app\actions\actionTypes.ts" />
     <None Remove="ClientApp\app\app.tsx" />
+    <None Remove="ClientApp\app\reducers\userReducer.ts" />
     <None Remove="ClientApp\app\store\notificationReducer.ts" />
   </ItemGroup>
 
@@ -43,10 +44,23 @@
     <TypeScriptCompile Include="ClientApp\app\actions\actionTypes.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\common\bulletins\BulletinBoard.tsx" />
     <TypeScriptCompile Include="ClientApp\app\reducers\bulletinReducer.ts" />
+    <TypeScriptCompile Include="ClientApp\app\reducers\userReducer.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Views\Shared\Components\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ErrorViewModel.ts">
+      <CustomToolNamespace>Models\ErrorViewModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="LoginViewModel.ts">
+      <CustomToolNamespace>Models\AuthenticationViewModels\LoginViewModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="RegisterViewModel.ts">
+      <CustomToolNamespace>Models\AuthenticationViewModels\RegisterViewModel.cs</CustomToolNamespace>
+    </None>
   </ItemGroup>
 
 </Project>

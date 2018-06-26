@@ -23,6 +23,7 @@ namespace EveCM.Tests.Data.Repositories
                .UseInMemoryDatabase(databaseName: "GetBulletins_Default")
                .Options;
 
+            
             using (var context = new EveCMContext(options))
             {
                 int count = 10;
@@ -45,7 +46,7 @@ namespace EveCM.Tests.Data.Repositories
                 IBulletinRepository repository = new BulletinRepository(context);
                 var result = repository.GetBulletins(out int total);
 
-                Assert.AreEqual(3, result.Count());
+                Assert.AreEqual(8, result.Count());
             }
         }
 
@@ -91,10 +92,12 @@ namespace EveCM.Tests.Data.Repositories
                .UseInMemoryDatabase(databaseName: "GetBulletins_Order")
                .Options;
 
+            int entityCount = 10;
+
             using (var context = new EveCMContext(options))
             {
-                int count = 10;
-                for (int i = count; i >= 0; i--)
+                
+                for (int i = entityCount - 1; i >= 0; i--)
                 {
                     context.Bulletins.Add(new Bulletin()
                     {
@@ -116,9 +119,9 @@ namespace EveCM.Tests.Data.Repositories
                 var result = repository.GetBulletins(out int total);
 
 
-                Assert.AreEqual(3, result.Count());
+                Assert.AreEqual(entityCount, result.Count());
                 Assert.AreEqual(DateTime.Now.ToShortDateString(), result.First().Date.ToShortDateString());
-                Assert.AreEqual(DateTime.Now.AddDays(-2).ToShortDateString(), result.Last().Date.ToShortDateString());
+                Assert.AreEqual(DateTime.Now.AddDays((entityCount-1)*-1).ToShortDateString(), result.Last().Date.ToShortDateString());
             }
         }
 

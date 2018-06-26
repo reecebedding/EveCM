@@ -2,5 +2,9 @@
 import { IBulletin } from '../../components/common/bulletins/interfaces/Interfaces';
 
 export function getAllBulletins(){
-    return axios.get('/bulletin');
+    return axios.get('/api/bulletin');
+}
+
+export function saveNewBulletin(bulletin: IBulletin) {
+    return axios.post('/api/bulletin', bulletin);
 }

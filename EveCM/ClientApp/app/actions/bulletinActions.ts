@@ -10,7 +10,15 @@ export interface LoadBulletinSuccessAction {
 }
 
 export function loadBulletinsSuccess(bulletins: IBulletin[]): LoadBulletinSuccessAction {
-    return { type: keys.LOAD_BULLETINS_SUCCESS, bulletins }
+    return { type: keys.LOAD_BULLETINS_SUCCESS, bulletins };
+}
+
+export interface SaveBulletinSuccessAction {
+    type: string,
+    bulletin: IBulletin
+}
+export function saveBulletinSuccess(bulletin: IBulletin): SaveBulletinSuccessAction {
+    return { type: keys.SAVE_BULLETIN_SUCCESS, bulletin };
 }
 
 export function loadBulletins() {
@@ -18,6 +26,16 @@ export function loadBulletins() {
         return bulletinConnector.getAllBulletins()
             .then((bulletins: AxiosResponse<IBulletin[]>) => {
                 dispatch(loadBulletinsSuccess(bulletins.data));
+            })
+            .catch(error => { throw (error); });
+    }
+}
+
+export function saveBulletin(bulletin: IBulletin) {
+    return function (dispatch: Dispatch) {
+        return bulletinConnector.saveNewBulletin(bulletin)
+            .then((bulletin: AxiosResponse<IBulletin>) => {
+                dispatch(saveBulletinSuccess(bulletin.data));
             })
             .catch(error => { throw (error); });
     }

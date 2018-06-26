@@ -22,7 +22,13 @@ namespace EveCM.Managers.Bulletin
             _userManager = userManager;
         }
 
-        public IEnumerable<Models.Bulletin.Bulletin> GetBulletins(out int totalCount, int count = 3)
+        public Models.Bulletin.Bulletin GetBulletin(int id)
+        {
+            Models.Bulletin.Bulletin bulletin = _bulletinRepository.GetBulletin(id);
+            return bulletin;
+        }
+
+        public IEnumerable<Models.Bulletin.Bulletin> GetBulletins(out int totalCount, int? count = null)
         {
             List<Models.Bulletin.Bulletin> bulletins = _bulletinRepository.GetBulletins(out totalCount, count).ToList();
             bulletins.ForEach(x => InsertAuthorDetails(x));
@@ -30,18 +36,28 @@ namespace EveCM.Managers.Bulletin
             return bulletins;
         }
 
-        public void SaveNewBulletin(Models.Bulletin.Bulletin bulletin, ClaimsPrincipal user = null)
+        public Models.Bulletin.Bulletin SaveNewBulletin(Models.Bulletin.Bulletin bulletin, ClaimsPrincipal user)
         {
-            if (user != null)
-                bulletin.AuthorId = _userManager.GetUserAsync(user).Result.Id;
-            
+            ApplicationUser author = _userManager.GetUserAsync(user).Result;
+
+            bulletin.AuthorId = author.Id;
             bulletin.Date = DateTime.Now;
-            _bulletinRepository.SaveBulletin(bulletin);
+
+            Models.Bulletin.Bulletin savedBulletin = _bulletinRepository.SaveBulletin(bulletin);
+            InsertAuthorDetails(savedBulletin, author);
+
+            return savedBulletin;
         }
 
         private void InsertAuthorDetails(Models.Bulletin.Bulletin bulletin)
         {
-            bulletin.Author = _userManager.FindByIdAsync(bulletin.AuthorId).Result;
+            ApplicationUser author = _userManager.FindByIdAsync(bulletin.AuthorId).Result;
+            InsertAuthorDetails(bulletin, author);
+        }
+
+        private void InsertAuthorDetails(Models.Bulletin.Bulletin bulletin, ApplicationUser author)
+        {
+            bulletin.Author = author;
         }
     }
 }

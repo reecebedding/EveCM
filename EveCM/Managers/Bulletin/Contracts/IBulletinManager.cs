@@ -9,7 +9,8 @@ namespace EveCM.Managers.Bulletin.Contracts
 {
     public interface IBulletinManager
     {
-        IEnumerable<Models.Bulletin.Bulletin> GetBulletins(out int totalCount, int count = 3);
-        void SaveNewBulletin(Models.Bulletin.Bulletin bulletin, ClaimsPrincipal user = null);
+        IEnumerable<Models.Bulletin.Bulletin> GetBulletins(out int totalCount, int? count = null);
+        Models.Bulletin.Bulletin GetBulletin(int id);
+        Models.Bulletin.Bulletin SaveNewBulletin(Models.Bulletin.Bulletin bulletin, ClaimsPrincipal user);
     }
 }
