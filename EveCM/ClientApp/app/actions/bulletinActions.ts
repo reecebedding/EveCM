@@ -1,11 +1,10 @@
 ﻿import * as keys from './actionTypeKeys';
-import { Dispatch } from 'redux';
+import { Dispatch, Action } from 'redux';
 import { IBulletin } from '../components/common/bulletins/interfaces/Interfaces';
 import * as bulletinConnector from './connectors/bulletinConnector';
 import { AxiosResponse } from 'axios';
 
-export interface LoadBulletinSuccessAction {
-    type: string,
+export interface LoadBulletinSuccessAction extends Action<string>{
     bulletins: IBulletin[]
 }
 
@@ -13,10 +12,10 @@ export function loadBulletinsSuccess(bulletins: IBulletin[]): LoadBulletinSucces
     return { type: keys.LOAD_BULLETINS_SUCCESS, bulletins };
 }
 
-export interface SaveBulletinSuccessAction {
-    type: string,
+export interface SaveBulletinSuccessAction extends Action<string> {
     bulletin: IBulletin
 }
+
 export function saveBulletinSuccess(bulletin: IBulletin): SaveBulletinSuccessAction {
     return { type: keys.SAVE_BULLETIN_SUCCESS, bulletin };
 }

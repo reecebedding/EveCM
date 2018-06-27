@@ -1,11 +1,10 @@
 ﻿import * as keys from './actionTypeKeys';
-import { Dispatch } from 'redux';
+import { Dispatch, Action } from 'redux';
 import { IUser } from '../components/common/userDetails/interfaces/Interfaces';
 import * as userConnector from './connectors/userConnector';
 import { AxiosResponse } from 'axios';
 
-export interface LoadUserSuccessAction {
-    type: string,
+export interface LoadUserSuccessAction extends Action<string>{
     user: IUser
 }
 

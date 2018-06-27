@@ -30,17 +30,7 @@ export class BulletinBoard extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            newBulletinVisible: false,
-            newBulletin: {
-                id: 0,
-                title: '',
-                content: '',
-                date: new Date,
-                authorCharacter: {
-                    userName: '',
-                    avatarUrl: ''
-                }
-            }
+            newBulletinVisible: false
         }
 
         this.toggleNewBulletin = this.toggleNewBulletin.bind(this);
@@ -74,7 +64,7 @@ export class BulletinBoard extends React.Component<IProps, IState> {
                     }
                 </div>
                 <BulletinList bulletins={bulletins} />
-                <NewBulletinModal active={this.state.newBulletinVisible} toggle={this.toggleNewBulletin} bulletinState={this.state.newBulletin} />
+                <NewBulletinModal active={this.state.newBulletinVisible} toggle={this.toggleNewBulletin} />
             </div>
         );
     }
@@ -87,10 +77,4 @@ function mapStateToProps(state: IStoreState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
-    return {
-
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(BulletinBoard);
+export default connect(mapStateToProps)(BulletinBoard);

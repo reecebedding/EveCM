@@ -9,8 +9,7 @@ import { IBulletin } from './interfaces/Interfaces';
 interface IProps {
     active: boolean,
     toggle: () => void,
-    save: (bulletin: IBulletin) => void,
-    bulletinState: IBulletin
+    save: (bulletin: IBulletin) => void
 }
 
 interface IState {
@@ -19,11 +18,24 @@ interface IState {
 
 export class NewBulletinModal extends React.Component<IProps, IState> {
 
+    getInitialBulletinState(): IBulletin {
+        return {
+            id: 0,
+            title: '',
+            content: '',
+            date: new Date,
+            authorCharacter: {
+                userName: '',
+                avatarUrl: ''
+            }
+        };
+    }
+
     constructor(props: any) {
         super(props);
 
         this.state = {
-            bulletin: this.props.bulletinState
+            bulletin: this.getInitialBulletinState()
         };
 
         this.saveBulletin = this.saveBulletin.bind(this);
@@ -37,18 +49,22 @@ export class NewBulletinModal extends React.Component<IProps, IState> {
     }
 
     handleChange(event: any) {
-        const nextState = {
-            ...this.state,
+        let property = event.target.name;
+        let value = event.target.value;
+
+        this.setState((prevState) => ({
+            ...prevState,
             bulletin: {
-                ...this.state.bulletin,
-                [event.target.name]: event.target.value
+                ...prevState.bulletin,
+                [property]: value
             }
-        };
-        this.setState(nextState);
+        }));
     }
 
     formClosed() {
-        this.setState({ bulletin: this.props.bulletinState });
+        this.setState((prevState, props) => ({
+            bulletin: this.getInitialBulletinState()
+        }));
     }
 
     isSubmittable(): boolean {
@@ -67,7 +83,7 @@ export class NewBulletinModal extends React.Component<IProps, IState> {
                     </div>
                     <div className="form-group">
                         <label>Message</label>
-                        <textarea rows={10} className="form-control" value={this.state.bulletin.content} name="content" onChange={this.handleChange}/>
+                        <textarea rows={10} className="form-control" value={this.state.bulletin.content} name="content" onChange={this.handleChange} />
                     </div>
                 </ModalBody>
                 <ModalFooter>

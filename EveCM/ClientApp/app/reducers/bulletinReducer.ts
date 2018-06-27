@@ -9,11 +9,10 @@ export default function bulletins(state = initialState.bulletins, action: Action
             return action.bulletins;
 
         case keys.SAVE_BULLETIN_SUCCESS:
-            let newState = [
-                Object.assign({}, action.bulletin),
+            return [
+                action.bulletin,
                 ...state
             ];
-            return newState;
 
         default:
             return state;
