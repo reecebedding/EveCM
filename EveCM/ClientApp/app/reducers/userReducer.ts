@@ -1,11 +1,11 @@
-﻿import initialState from './initialState';
-import * as keys from '../actions/actionTypeKeys';
-import { ActionTypes } from '../actions/actionTypes';
+﻿import { bulletinState } from './initialState';
+import { UserKeys } from '../actions/actionTypeKeys';
+import { UserActions } from '../actions/actionTypes';
 
-export default function userReducer(state = initialState.currentUser, action: ActionTypes) {
+export default function userReducer(state = bulletinState.currentUser, action: UserActions) {
     switch (action.type) {
 
-        case keys.LOAD_USER_SUCCESS:
+        case UserKeys.LOAD_USER_SUCCESS:
             return action.user;
 
         default:

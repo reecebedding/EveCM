@@ -2,9 +2,8 @@
 import rootReducer from '../reducers/rootReducer';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import thunk from 'redux-thunk';
-import initialState from '../reducers/initialState';
 
-export default function configureStore() {
+export default function configureStore(initialState: {}) {
     return createStore(
         rootReducer,
         initialState,

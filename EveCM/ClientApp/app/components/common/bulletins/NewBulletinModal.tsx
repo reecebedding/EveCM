@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import * as BulletinActions from '../../../actions/bulletinActions';
 import { Dispatch } from 'redux';
-import { IStoreState } from '../../../store/IStoreState';
+import { IBulletinStoreState } from '../../../store/IStoreState';
 import { IBulletin } from './interfaces/Interfaces';
 
 interface IProps {
@@ -95,7 +95,7 @@ export class NewBulletinModal extends React.Component<IProps, IState> {
     }
 }
 
-function mapStateToProps(state: IStoreState) {
+function mapStateToProps(state: IBulletinStoreState) {
     return {
     };
 }

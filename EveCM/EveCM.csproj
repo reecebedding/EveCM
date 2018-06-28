@@ -16,7 +16,9 @@
 
   <ItemGroup>
     <None Remove="ClientApp\app\actions\actionTypes.ts" />
+    <None Remove="ClientApp\app\actions\connectors\admin\Interfaces.ts" />
     <None Remove="ClientApp\app\app.tsx" />
+    <None Remove="ClientApp\app\components\Admin\permissions\PermissionsDashboard.tsx" />
     <None Remove="ClientApp\app\reducers\userReducer.ts" />
     <None Remove="ClientApp\app\store\notificationReducer.ts" />
   </ItemGroup>
@@ -42,6 +44,8 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\actions\actionTypes.ts" />
+    <TypeScriptCompile Include="ClientApp\app\actions\connectors\admin\Interfaces.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\Admin\permissions\PermissionsDashboard.tsx" />
     <TypeScriptCompile Include="ClientApp\app\components\common\bulletins\BulletinBoard.tsx" />
     <TypeScriptCompile Include="ClientApp\app\reducers\bulletinReducer.ts" />
     <TypeScriptCompile Include="ClientApp\app\reducers\userReducer.ts" />

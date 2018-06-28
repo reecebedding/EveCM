@@ -1,7 +1,7 @@
-﻿import { IStoreState } from '../store/IStoreState';
+﻿import { IBulletinStoreState, IAdminPermissionsStoreState } from '../store/IStoreState';
 import { IUser } from '../components/common/userDetails/interfaces/Interfaces';
 
-const state: IStoreState = {
+export const bulletinState: IBulletinStoreState = {
     bulletins: [],
     currentUser: {
         id: '0',
@@ -12,4 +12,12 @@ const state: IStoreState = {
     }
 }
 
-export default state;
+export const adminPermissionsState: IAdminPermissionsStoreState = {
+    adminPermissions: {
+        roles: []
+    },
+    roleInformation: {
+        name: '',
+        users: []
+    }
+}

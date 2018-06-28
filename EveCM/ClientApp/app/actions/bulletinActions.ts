@@ -1,4 +1,4 @@
-﻿import * as keys from './actionTypeKeys';
+﻿import { BulletinKeys } from './actionTypeKeys';
 import { Dispatch, Action } from 'redux';
 import { IBulletin } from '../components/common/bulletins/interfaces/Interfaces';
 import * as bulletinConnector from './connectors/bulletinConnector';
@@ -9,7 +9,7 @@ export interface LoadBulletinSuccessAction extends Action<string>{
 }
 
 export function loadBulletinsSuccess(bulletins: IBulletin[]): LoadBulletinSuccessAction {
-    return { type: keys.LOAD_BULLETINS_SUCCESS, bulletins };
+    return { type: BulletinKeys.LOAD_BULLETINS_SUCCESS, bulletins };
 }
 
 export interface SaveBulletinSuccessAction extends Action<string> {
@@ -17,7 +17,7 @@ export interface SaveBulletinSuccessAction extends Action<string> {
 }
 
 export function saveBulletinSuccess(bulletin: IBulletin): SaveBulletinSuccessAction {
-    return { type: keys.SAVE_BULLETIN_SUCCESS, bulletin };
+    return { type: BulletinKeys.SAVE_BULLETIN_SUCCESS, bulletin };
 }
 
 export function loadBulletins() {

@@ -68,6 +68,7 @@ namespace EveCM
 
             services.AddMemoryCache();
             services.AddSession();
+            services.AddAuthorization();
             services.AddMvc();
             services.AddAutoMapper();
         }

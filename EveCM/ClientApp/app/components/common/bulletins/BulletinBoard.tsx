@@ -10,7 +10,7 @@ import BulletinList from './BulletinList';
 import * as BulletinActions from '../../../actions/bulletinActions';
 import { IBulletin } from './interfaces/Interfaces';
 import { IUser } from '../userDetails/interfaces/Interfaces';
-import { IStoreState } from '../../../store/IStoreState';
+import { IBulletinStoreState } from '../../../store/IStoreState';
 import * as UserUtils from '../../../lib/user-utils';
 import NewBulletinModal from './NewBulletinModal'
 
@@ -70,7 +70,7 @@ export class BulletinBoard extends React.Component<IProps, IState> {
     }
 }
 
-function mapStateToProps(state: IStoreState) {
+function mapStateToProps(state: IBulletinStoreState) {
     return {
         bulletins: state.bulletins,
         currentUser: state.currentUser

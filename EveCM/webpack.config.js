@@ -24,7 +24,8 @@ module.exports = function (env, argv) {
             vendor: path.resolve(clientPath, 'vendor.js'),
             global: path.resolve(clientPath, 'app', 'global.ts'),
             
-            home: GetPathToComponentEntryFile('Home', 'homePage.tsx')
+            home: GetPathToComponentEntryFile('Home', 'homePage.tsx'),
+            admin: GetPathToComponentEntryFile('Admin', 'adminPage.tsx')
         },
         devtool: isDevelopmentMode ? 'inline-source-map' : '',
         output: {

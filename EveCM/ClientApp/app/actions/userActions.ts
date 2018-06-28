@@ -1,4 +1,4 @@
-﻿import * as keys from './actionTypeKeys';
+﻿import { UserKeys } from './actionTypeKeys';
 import { Dispatch, Action } from 'redux';
 import { IUser } from '../components/common/userDetails/interfaces/Interfaces';
 import * as userConnector from './connectors/userConnector';
@@ -9,7 +9,7 @@ export interface LoadUserSuccessAction extends Action<string>{
 }
 
 export function loadUserSuccess(user: IUser): LoadUserSuccessAction {
-    return { type: keys.LOAD_USER_SUCCESS, user }
+    return { type: UserKeys.LOAD_USER_SUCCESS, user }
 }
 
 export function loadCurrentUser() {

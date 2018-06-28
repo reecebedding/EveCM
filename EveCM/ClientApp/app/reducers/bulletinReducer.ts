@@ -1,14 +1,14 @@
-﻿import initialState from './initialState';
-import * as keys from '../actions/actionTypeKeys';
-import { ActionTypes } from '../actions/actionTypes';
+﻿import { bulletinState } from './initialState';
+import { BulletinKeys } from '../actions/actionTypeKeys';
+import { BulletinActions } from '../actions/actionTypes';
 
-export default function bulletins(state = initialState.bulletins, action: ActionTypes) {
+export default function bulletins(state = bulletinState.bulletins, action: BulletinActions) {
     switch (action.type) {
 
-        case keys.LOAD_BULLETINS_SUCCESS:
+        case BulletinKeys.LOAD_BULLETINS_SUCCESS:
             return action.bulletins;
 
-        case keys.SAVE_BULLETIN_SUCCESS:
+        case BulletinKeys.SAVE_BULLETIN_SUCCESS:
             return [
                 action.bulletin,
                 ...state

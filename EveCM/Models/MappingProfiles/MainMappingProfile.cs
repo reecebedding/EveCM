@@ -1,4 +1,5 @@
-﻿using EveCM.Models.Bulletin;
+﻿using EveCM.Models.Admin;
+using EveCM.Models.Bulletin;
 using EveCM.Models.Bulletin.Dtos;
 
 namespace EveCM.Models.MappingProfiles
@@ -13,6 +14,9 @@ namespace EveCM.Models.MappingProfiles
                 .ReverseMap();
 
             CreateMap<ApplicationUserDto, ApplicationUser>()
+                .ReverseMap();
+
+            CreateMap<UserInRoleDto, ApplicationUser>()
                 .ReverseMap();
         }
     }

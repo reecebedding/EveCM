@@ -53,6 +53,15 @@
                     <li><a asp-controller="Home" asp-action="Index"><img src="~/images/container.png"> Home</a></li>
                 </ul>
             </div>
+            @if (User.IsInRole("admin"))
+            {
+                <div class="main-menu">
+                    <h5 class="sidenav-heading">Admin</h5>
+                    <ul id="side-app-admin-menu" class="side-menu list-unstyled">
+                        <li><a asp-controller="Admin" asp-action="Index"><img src="~/images/settings.png"> Settings</a></li>
+                    </ul>
+                </div>
+            }
         </div>
     </nav>
     <div class="page">
@@ -71,7 +80,7 @@
         </header>
         <section class="section-padding">
             <div class="container-fluid">
-                <div class="row">
+                <div>
                     @RenderBody()
                 </div>
             </div>
