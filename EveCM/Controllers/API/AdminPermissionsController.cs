@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using EveCM.Managers.Admin.Contracts;
 using EveCM.Models;
 using EveCM.Models.Admin;
 using Microsoft.AspNetCore.Authorization;
@@ -18,12 +19,18 @@ namespace EveCM.Controllers.API
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IAdminManager _adminManager;
         private readonly IMapper _mapper;
 
-        public AdminPermissionsController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public AdminPermissionsController(
+            RoleManager<IdentityRole> roleManager, 
+            UserManager<ApplicationUser> userManager, 
+            IAdminManager adminManager,
+            IMapper mapper)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _adminManager = adminManager;
             _mapper = mapper;
         }
 
@@ -50,6 +57,18 @@ namespace EveCM.Controllers.API
             };
 
             return Ok(roleInformation);
+        }
+
+        [Route("permissions/role/{role}/user/{userId}")]
+        [HttpDelete]
+        public IActionResult RemoveUserFromRole(string role, string userId)
+        {
+            ApplicationUser user = _userManager.FindByIdAsync(userId).Result;
+            _adminManager.RemoveUserFromRole(user, role);
+
+            ApplicationUserDto userDto = _mapper.Map<ApplicationUserDto>(user);
+
+            return Ok(userDto);
         }
     }
 }

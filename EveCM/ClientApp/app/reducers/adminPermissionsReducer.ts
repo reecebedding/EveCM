@@ -17,7 +17,30 @@ export function roleInformation(state = adminPermissionsState.roleInformation, a
     switch (action.type) {
 
         case AdminPermissionsKeys.LOAD_ROLE_INFORMATION_SUCCESS:
-            return action.roleInformation;
+            return {
+                ...state,
+                data: action.roleInformation
+            };
+
+        case AdminPermissionsKeys.REMOVE_MEMBER_FROM_ROLE_SUCCESS: {
+            if (state.data.name == action.roleName) {
+                return Object.assign({ ...state }, {
+                    data: {
+                        ...state.data,
+                        users: [...state.data.users].filter(u => u.id !== action.user.id)
+                    },
+                    ui: {
+                        ...state.ui,
+                        userRemoved: true
+                    }
+                });
+            } else {
+                return state;
+            }
+        }
+
+        case AdminPermissionsKeys.DISMISS_REMOVE_MEMBER_FROM_ROLE_SUCCESS:
+            return Object.assign({ ...state }, { ui: { ...state.ui, userRemoved: false } });
 
         default:
             return state;

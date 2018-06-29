@@ -5,6 +5,11 @@ export interface IAdminPermissions {
 }
 
 export interface IRoleInformation {
-    name: string,
-    users: IUserInRole[]
+    data: {
+        name: string,
+        users: IUserInRole[]
+    },
+    ui: {
+        userRemoved: boolean
+    }
 }

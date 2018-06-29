@@ -1,21 +1,29 @@
 ﻿import * as React from 'react';
 
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+
 import { connect, Dispatch } from 'react-redux';
 import { IAdminPermissionsStoreState } from '../../../store/IStoreState';
 import { IAdminPermissions, IRoleInformation } from '../../../actions/connectors/admin/Interfaces';
 import * as AdminActions from '../../../actions/adminActions';
 import MembersInRole from './MembersInRole';
+import { IUserInRole } from './interfaces/Interfaces';
+import ConfirmModal from '../../common/dialogs/confirmModal';
 
 interface IProps {
     permissions: IAdminPermissions,
+    dismissRemoveUserFromRole: () => void,
     loadPermissions: () => void,
     loadRoleInformation: (roleName: string) => void,
-    roleInformation: IRoleInformation
+    roleInformation: IRoleInformation,
+    removeUserFromRole: (user: IUserInRole, roleName: string) => void
 }
 
 interface IState {
-    roleDropDownActive: boolean
+    roleDropDownActive: boolean,
+    displayConfirmRemove: boolean,
+    userToRemove: IUserInRole
 }
 
 class PermissionsDashboard extends React.Component<IProps, IState> {
@@ -24,13 +32,27 @@ class PermissionsDashboard extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            roleDropDownActive: false
+            roleDropDownActive: false,
+            displayConfirmRemove: false,
+            userToRemove: this.constructDefaultUser()
         };
 
         this.toggleRoleDropDown = this.toggleRoleDropDown.bind(this);
         this.selectDropDown = this.selectDropDown.bind(this);
+        this.removeMemberFromRole = this.removeMemberFromRole.bind(this);
+        this.toggleConfirmRemove = this.toggleConfirmRemove.bind(this);
+        this.toggleConfirmRemove = this.toggleConfirmRemove.bind(this);
 
         this.props.loadPermissions();
+    }
+
+    constructDefaultUser(): IUserInRole {
+        return {
+            avatarUrl: '',
+            email: '',
+            id: '',
+            userName: ''
+        };
     }
 
     toggleRoleDropDown() {
@@ -40,8 +62,25 @@ class PermissionsDashboard extends React.Component<IProps, IState> {
         }));
     }
 
+    toggleConfirmRemove(user: IUserInRole) {
+        this.setState(prev => {
+            return Object.assign({ ...prev }, { displayConfirmRemove: !prev.displayConfirmRemove, userToRemove: user });
+        });
+    }
+
     selectDropDown(roleName: string) {
         this.props.loadRoleInformation(roleName);
+    }
+
+    removeMemberFromRole() {
+        this.props.removeUserFromRole(this.state.userToRemove, this.props.roleInformation.data.name);
+    }
+
+    componentDidUpdate() {
+        if (this.props.roleInformation.ui.userRemoved) {
+            this.props.dismissRemoveUserFromRole();
+            NotificationManager.success('User successfully removed', '', 0);
+        }
     }
 
     render() {
@@ -65,26 +104,32 @@ class PermissionsDashboard extends React.Component<IProps, IState> {
                 </div>
                 <div className="ml-2 pt-2">
                     {
-                        this.props.roleInformation.name && (
+                        this.props.roleInformation.data.name && (
                             <h3>
-                                Role: {this.props.roleInformation.name}
+                                Role: {this.props.roleInformation.data.name}
                             </h3>
                         )
                     }
                 </div>
                 <div>
                     {
-                        this.props.roleInformation.users.length > 0 ?
-                            <MembersInRole members={this.props.roleInformation.users} />
-                            : this.props.roleInformation.name && (
-                                <div>
-                                    <h3>
-                                        No members in role: {this.props.roleInformation.name}
-                                    </h3>
+                        this.props.roleInformation.data.users.length > 0 ?
+                            <MembersInRole members={this.props.roleInformation.data.users} deleteMember={this.toggleConfirmRemove} />
+                            : this.props.roleInformation.data.name && (
+                                <div className="ml-2">
+                                    <p>No members</p>
                                 </div>
                             )
                     }
                 </div>
+                <NotificationContainer />
+                <ConfirmModal
+                    active={this.state.displayConfirmRemove}
+                    toggle={() => { this.toggleConfirmRemove(this.constructDefaultUser()) }}
+                    onConfirm={this.removeMemberFromRole}
+                    onDecline={() => { }}
+                    title='Confirm remove user'
+                    body={`Are you sure you want to remove ${this.state.userToRemove.userName} from ${this.props.roleInformation.data.name}?`} />
             </div>
         );
     }
@@ -101,7 +146,9 @@ function mapStateToProps(state: IAdminPermissionsStoreState) {
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         loadPermissions: () => dispatch(AdminActions.loadAdminPermissions()),
-        loadRoleInformation: (roleName: string) => dispatch(AdminActions.loadRoleInformation(roleName))
+        loadRoleInformation: (roleName: string) => dispatch(AdminActions.loadRoleInformation(roleName)),
+        removeUserFromRole: (user: IUserInRole, roleName: string) => dispatch(AdminActions.removeMemberFromRole(user, roleName)),
+        dismissRemoveUserFromRole: () => dispatch(AdminActions.dismissRemoveMemberFromRoleSuccess())
     };
 }
 

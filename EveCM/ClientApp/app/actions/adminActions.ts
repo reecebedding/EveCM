@@ -4,6 +4,7 @@ import { IAdminPermissions, IRoleInformation } from './connectors/admin/Interfac
 import * as PermissionSettingsConnector from './connectors/admin/permissionSettingsConnector';
 
 import { AdminPermissionsKeys } from './actionTypeKeys';
+import { IUserInRole } from "../components/Admin/permissions/interfaces/Interfaces";
 
 export interface LoadAdminPermissionSuccessAction extends Action {
     adminPermissions: IAdminPermissions
@@ -18,6 +19,19 @@ export interface LoadRoleInformationSuccessAction extends Action {
 
 export function loadRoleInformationSuccess(roleInformation: IRoleInformation): LoadRoleInformationSuccessAction {
     return { type: AdminPermissionsKeys.LOAD_ROLE_INFORMATION_SUCCESS, roleInformation}
+}
+
+export interface removeMemberFromRoleSuccessAction extends Action {
+    roleName: string,
+    user: IUserInRole
+}
+
+export function removeMemberFromRoleSucces(user: IUserInRole, roleName: string): removeMemberFromRoleSuccessAction {
+    return { type: AdminPermissionsKeys.REMOVE_MEMBER_FROM_ROLE_SUCCESS, roleName, user }
+}
+
+export function dismissRemoveMemberFromRoleSuccess(): Action {
+    return { type: AdminPermissionsKeys.DISMISS_REMOVE_MEMBER_FROM_ROLE_SUCCESS };
 }
 
 export function loadAdminPermissions() {
@@ -35,6 +49,16 @@ export function loadRoleInformation(roleName: string) {
         return PermissionSettingsConnector.getRoleInformation(roleName)
             .then((roleInformation: AxiosResponse<IRoleInformation>) => {
                 dispatch(loadRoleInformationSuccess(roleInformation.data));
+            })
+            .catch(error => { throw (error); });
+    }
+}
+
+export function removeMemberFromRole(user: IUserInRole, role: string) {
+    return function (dispatch: Dispatch) {
+        return PermissionSettingsConnector.removeUserFromRole(user, role)
+            .then((userRemove: AxiosResponse<IUserInRole>) => {
+                dispatch(removeMemberFromRoleSucces(userRemove.data, role));
             })
             .catch(error => { throw (error); });
     }

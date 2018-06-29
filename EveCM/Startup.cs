@@ -10,6 +10,8 @@ using EveCM.Data;
 using EveCM.Data.Repositories.Contracts;
 using EveCM.Data.Repositories.PSQL;
 using EveCM.Managers;
+using EveCM.Managers.Admin;
+using EveCM.Managers.Admin.Contracts;
 using EveCM.Managers.Bulletin;
 using EveCM.Managers.Bulletin.Contracts;
 using EveCM.Managers.Profile;
@@ -78,6 +80,7 @@ namespace EveCM
             services.AddTransient<IOAuthManager, OAuthManager>();
             services.AddTransient<IProfileManager, ProfileManager>();
             services.AddTransient<IBulletinManager, BulletinManager>();
+            services.AddTransient<IAdminManager, AdminManager>();
 
             services.AddTransient<ICharacterRepository, CharacterRepository>();
             services.AddTransient<IBulletinRepository, BulletinRepository>();

@@ -56,7 +56,7 @@ export class BulletinBoard extends React.Component<IProps, IState> {
                         UserUtils.isInRole('admin', this.props.currentUser) && (
                             <div className="float-right">
                                 <Button color="primary" size="sm" onClick={this.toggleNewBulletin}>
-                                    <i className="fa fa-plus mr-2" />
+                                    <i className="fas fa-plus mr-2" />
                                     New Post
                                 </Button>
                             </div>
