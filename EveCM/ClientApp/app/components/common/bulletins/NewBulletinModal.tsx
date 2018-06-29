@@ -37,18 +37,14 @@ export class NewBulletinModal extends React.Component<IProps, IState> {
         this.state = {
             bulletin: this.getInitialBulletinState()
         };
-
-        this.saveBulletin = this.saveBulletin.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.formClosed = this.formClosed.bind(this);
     }
 
-    saveBulletin(e: any) {
+    saveBulletin = (e: any) => {
         this.props.save(this.state.bulletin);
         this.props.toggle();
     }
 
-    handleChange(event: any) {
+    handleChange = (event: any) => {
         let property = event.target.name;
         let value = event.target.value;
 
@@ -61,7 +57,7 @@ export class NewBulletinModal extends React.Component<IProps, IState> {
         }));
     }
 
-    formClosed() {
+    formClosed = () => {
         this.setState((prevState, props) => ({
             bulletin: this.getInitialBulletinState()
         }));

@@ -10,7 +10,7 @@ const outputPath = path.resolve(__dirname, 'wwwroot');
 const clientPath = './ClientApp';
 
 function GetPathToComponentEntryFile(parentDir, fileName) {
-    return path.resolve(clientPath, 'app', 'Components', parentDir, fileName);
+    return path.resolve(clientPath, 'app', 'components', parentDir, fileName);
 }
 
 module.exports = function (env, argv) {

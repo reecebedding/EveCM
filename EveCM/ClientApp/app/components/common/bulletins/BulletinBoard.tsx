@@ -32,11 +32,9 @@ export class BulletinBoard extends React.Component<IProps, IState> {
         this.state = {
             newBulletinVisible: false
         }
-
-        this.toggleNewBulletin = this.toggleNewBulletin.bind(this);
     }
 
-    toggleNewBulletin() {
+    toggleNewBulletin = () => {
         this.setState(prev => {
             return Object.assign(prev, { newBulletinVisible: !prev.newBulletinVisible });
         });

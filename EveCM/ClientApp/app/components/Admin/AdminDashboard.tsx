@@ -24,11 +24,9 @@ export class AdminDashboard extends React.Component<IProps, IState> {
         this.state = {
             activeTabName: 'permissions'
         };
-
-        this.toggleTab = this.toggleTab.bind(this);
     }
 
-    toggleTab(tabName: string) {
+    toggleTab = (tabName: string) => {
         if (this.state.activeTabName !== tabName) {
             this.setState((prevState) => ({
                 ...prevState,
@@ -40,9 +38,9 @@ export class AdminDashboard extends React.Component<IProps, IState> {
     render() {
         return (
             <div>
-                <Nav tabs>
+                <Nav tabs={true}>
                     <NavItem>
-                        <NavLink className={classnames({ active: this.state.activeTabName === 'permissions' })} onClick={() => { this.toggleTab('permissions'); }} >
+                        <NavLink className={classnames({ active: this.state.activeTabName === 'permissions' })} onClick={this.toggleTab.bind(this, 'permissions')} >
                             Permissions
                         </NavLink>
                     </NavItem>

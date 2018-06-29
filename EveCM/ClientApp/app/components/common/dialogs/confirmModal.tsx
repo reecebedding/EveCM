@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
-interface IProps {
+interface Iprops {
     active: boolean,
     toggle: () => void,
     onConfirm: () => void,
@@ -12,23 +12,37 @@ interface IProps {
     declineButtonText?: string
 }
 
-const ConfirmModal: React.SFC<IProps> = (props) => (
-    <Modal isOpen={props.active} toggle={props.toggle} backdrop="static">
-        <ModalHeader toggle={props.toggle}>{props.title}</ModalHeader>
-        <ModalBody>
-            {props.body}
-        </ModalBody>
-        <ModalFooter>
-            <Button color="primary" onClick={() => { props.onConfirm(); props.toggle(); }}>{props.confirmButtonText}</Button>
-            <Button color="secondary" onClick={() => { props.onDecline(); props.toggle(); }}>{props.declineButtonText}</Button>
-        </ModalFooter>
-    </Modal>
-);
+export default class ConfirmModal extends React.Component<Iprops> {
+    static defaultProps = {
+        confirmButtonText: 'Yes',
+        declineButtonText: 'No',
+        onDecline: () => { }
+    }
 
-ConfirmModal.defaultProps = {
-    confirmButtonText: 'Yes',
-    declineButtonText: 'No',
-    onDecline: () => { }
+    decline = () => {
+        if (this.props.onDecline) {
+            this.props.onDecline();
+        }
+        this.props.toggle();
+    }
+
+    confirm = () => {
+        this.props.onConfirm();
+        this.props.toggle();
+    }
+
+    render() {
+        return (
+            <Modal isOpen={this.props.active} toggle={this.props.toggle} backdrop="static">
+                <ModalHeader toggle={this.props.toggle}>{this.props.title}</ModalHeader>
+                <ModalBody>
+                    {this.props.body}
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="primary" onClick={this.confirm}>{this.props.confirmButtonText}</Button>
+                    <Button color="secondary" onClick={this.decline}>{this.props.declineButtonText}</Button>
+                </ModalFooter>
+            </Modal>
+        );
+    }
 }
-
-export default ConfirmModal;

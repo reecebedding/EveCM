@@ -36,13 +36,9 @@ class PermissionsDashboard extends React.Component<IProps, IState> {
             displayConfirmRemove: false,
             userToRemove: this.constructDefaultUser()
         };
+    }
 
-        this.toggleRoleDropDown = this.toggleRoleDropDown.bind(this);
-        this.selectDropDown = this.selectDropDown.bind(this);
-        this.removeMemberFromRole = this.removeMemberFromRole.bind(this);
-        this.toggleConfirmRemove = this.toggleConfirmRemove.bind(this);
-        this.toggleConfirmRemove = this.toggleConfirmRemove.bind(this);
-
+    componentDidMount() {
         this.props.loadPermissions();
     }
 
@@ -55,14 +51,14 @@ class PermissionsDashboard extends React.Component<IProps, IState> {
         };
     }
 
-    toggleRoleDropDown() {
+    toggleRoleDropDown = () => {
         this.setState((prevState) => ({
             ...prevState,
             roleDropDownActive: !prevState.roleDropDownActive
         }));
     }
 
-    toggleConfirmRemove(user: IUserInRole) {
+    toggleConfirmRemove = (user: IUserInRole) => {
         this.setState((prevState) => ({
             ...prevState,
             displayConfirmRemove: !prevState.displayConfirmRemove,
@@ -70,11 +66,11 @@ class PermissionsDashboard extends React.Component<IProps, IState> {
         }));
     }
 
-    selectDropDown(roleName: string) {
+    selectDropDown = (roleName: string) => {
         this.props.loadRoleInformation(roleName);
     }
 
-    removeMemberFromRole() {
+    removeMemberFromRole = () => {
         this.props.removeUserFromRole(this.state.userToRemove, this.props.roleInformation.data.name);
     }
 
@@ -91,13 +87,13 @@ class PermissionsDashboard extends React.Component<IProps, IState> {
                 <div className="row no-gutters ml-2 mt-2 mb-2">
                     <div>
                         <Dropdown isOpen={this.state.roleDropDownActive} toggle={this.toggleRoleDropDown}>
-                            <DropdownToggle caret>
+                            <DropdownToggle caret={true}>
                                 Select Role
                             </DropdownToggle>
                             <DropdownMenu>
                                 {
                                     this.props.permissions.roles.map((role, index) => (
-                                        <DropdownItem key={index} onClick={() => this.selectDropDown(role)}>{role}</DropdownItem>
+                                        <DropdownItem key={index} onClick={this.selectDropDown.bind(this, role)}>{role}</DropdownItem>
                                     ))
                                 }
                             </DropdownMenu>
@@ -127,10 +123,11 @@ class PermissionsDashboard extends React.Component<IProps, IState> {
                 <NotificationContainer />
                 <ConfirmModal
                     active={this.state.displayConfirmRemove}
-                    toggle={() => { this.toggleConfirmRemove(this.constructDefaultUser()) }}
+                    toggle={this.toggleConfirmRemove.bind(this, this.constructDefaultUser())}
                     onConfirm={this.removeMemberFromRole}
                     title='Confirm remove user'
-                    body={`Are you sure you want to remove ${this.state.userToRemove.userName} from ${this.props.roleInformation.data.name}?`} />
+                    body={`Are you sure you want to remove ${this.state.userToRemove.userName} from ${this.props.roleInformation.data.name}?`}
+                />
             </div>
         );
     }
