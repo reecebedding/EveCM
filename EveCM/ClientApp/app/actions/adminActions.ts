@@ -21,12 +21,12 @@ export function loadRoleInformationSuccess(roleInformation: IRoleInformation): L
     return { type: AdminPermissionsKeys.LOAD_ROLE_INFORMATION_SUCCESS, roleInformation}
 }
 
-export interface removeMemberFromRoleSuccessAction extends Action {
+export interface RemoveMemberFromRoleSuccessAction extends Action {
     roleName: string,
     user: IUserInRole
 }
 
-export function removeMemberFromRoleSucces(user: IUserInRole, roleName: string): removeMemberFromRoleSuccessAction {
+export function removeMemberFromRoleSucces(user: IUserInRole, roleName: string): RemoveMemberFromRoleSuccessAction {
     return { type: AdminPermissionsKeys.REMOVE_MEMBER_FROM_ROLE_SUCCESS, roleName, user }
 }
 

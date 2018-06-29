@@ -63,9 +63,11 @@ class PermissionsDashboard extends React.Component<IProps, IState> {
     }
 
     toggleConfirmRemove(user: IUserInRole) {
-        this.setState(prev => {
-            return Object.assign({ ...prev }, { displayConfirmRemove: !prev.displayConfirmRemove, userToRemove: user });
-        });
+        this.setState((prevState) => ({
+            ...prevState,
+            displayConfirmRemove: !prevState.displayConfirmRemove,
+            userToRemove: user
+        }));
     }
 
     selectDropDown(roleName: string) {
@@ -127,7 +129,6 @@ class PermissionsDashboard extends React.Component<IProps, IState> {
                     active={this.state.displayConfirmRemove}
                     toggle={() => { this.toggleConfirmRemove(this.constructDefaultUser()) }}
                     onConfirm={this.removeMemberFromRole}
-                    onDecline={() => { }}
                     title='Confirm remove user'
                     body={`Are you sure you want to remove ${this.state.userToRemove.userName} from ${this.props.roleInformation.data.name}?`} />
             </div>

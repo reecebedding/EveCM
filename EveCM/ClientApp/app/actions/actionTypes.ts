@@ -12,5 +12,5 @@ export type UserActions = userActions.LoadUserSuccessAction;
 export type AdminPermissionsActions =
     adminActions.LoadAdminPermissionSuccessAction
     & adminActions.LoadRoleInformationSuccessAction
-    & adminActions.removeMemberFromRoleSuccessAction;
+    & adminActions.RemoveMemberFromRoleSuccessAction;
 

@@ -2,8 +2,6 @@
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import 'react-notifications/lib/notifications.css';
-
 import AdminDashboard from './AdminDashBoard';
 
 import configureStore from '../../store/configureStore';

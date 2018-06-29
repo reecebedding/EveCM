@@ -5,7 +5,7 @@ interface IProps {
     active: boolean,
     toggle: () => void,
     onConfirm: () => void,
-    onDecline: () => void,
+    onDecline?: () => void,
     title: string,
     body: string,
     confirmButtonText?: string,
@@ -27,7 +27,8 @@ const ConfirmModal: React.SFC<IProps> = (props) => (
 
 ConfirmModal.defaultProps = {
     confirmButtonText: 'Yes',
-    declineButtonText: 'No'
+    declineButtonText: 'No',
+    onDecline: () => { }
 }
 
 export default ConfirmModal;
