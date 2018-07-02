@@ -9,5 +9,6 @@ namespace EveCM.Models.Admin
     {
         public string Name { get; set; }
         public IEnumerable<UserInRoleDto> Users { get; set; }
+        public IEnumerable<UserInRoleDto> UsersToAdd { get; set; }
     }
 }

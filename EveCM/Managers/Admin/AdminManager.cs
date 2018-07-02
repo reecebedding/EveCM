@@ -19,6 +19,16 @@ namespace EveCM.Managers.Admin
             _userManager = userManager;
         }
 
+        public IEnumerable<ApplicationUser> GetUsersToAddToRole(string roleName)
+        {
+            List<ApplicationUser> usersToAdd = new List<ApplicationUser>();
+            IEnumerable<ApplicationUser> usersInSystem = _userManager.Users.ToList();
+            IEnumerable<ApplicationUser> usersInRole = _userManager.GetUsersInRoleAsync(roleName).Result;
+
+            usersToAdd.AddRange(usersInSystem.Except(usersInRole));
+            return usersToAdd;
+        }
+
         public ApplicationUser RemoveUserFromRole(ApplicationUser user, string roleName)
         {
             var identityResult =  _userManager.RemoveFromRoleAsync(user, roleName).Result;

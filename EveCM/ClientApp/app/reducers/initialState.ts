@@ -19,10 +19,12 @@ export const adminPermissionsState: IAdminPermissionsStoreState = {
     roleInformation: {
         data: {
             name: '',
-            users: []
+            users: [],
+            usersToAdd: []
         },
         ui: {
-            userRemoved: false
+            userRemoved: false,
+            userAdded: false
         }
         
     }

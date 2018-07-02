@@ -12,3 +12,4 @@ import 'jquery-validation-unobtrusive';
 import './front.js';
 
 import './vendor.scss';
+import 'react-select/dist/react-select.css';

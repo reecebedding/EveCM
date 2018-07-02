@@ -9,5 +9,6 @@ namespace EveCM.Managers.Admin.Contracts
     public interface IAdminManager
     {
         ApplicationUser RemoveUserFromRole(ApplicationUser user, string roleName);
+        IEnumerable<ApplicationUser> GetUsersToAddToRole(string roleName);
     }
 }

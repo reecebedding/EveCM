@@ -14,6 +14,7 @@
     "@types/react-redux": "^6.0.2",
     "@types/reactstrap": "^6.0.0",
     "@types/redux-immutable-state-invariant": "^2.0.4",
+    "@types/react-select": "^1.2.7",
     "@types/redux-thunk": "^2.1.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
@@ -55,6 +56,7 @@
     "react-dom": "^16.4.0",
     "react-notifications": "^1.4.3",
     "react-redux": "^5.0.7",
+    "react-select": "^1.2.1",
     "reactstrap": "^6.1.0",
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.3.0"

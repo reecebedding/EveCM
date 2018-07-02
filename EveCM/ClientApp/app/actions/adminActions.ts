@@ -26,12 +26,25 @@ export interface RemoveMemberFromRoleSuccessAction extends Action {
     user: IUserInRole
 }
 
-export function removeMemberFromRoleSucces(user: IUserInRole, roleName: string): RemoveMemberFromRoleSuccessAction {
+export function removeMemberFromRoleSuccess(user: IUserInRole, roleName: string): RemoveMemberFromRoleSuccessAction {
     return { type: AdminPermissionsKeys.REMOVE_MEMBER_FROM_ROLE_SUCCESS, roleName, user }
+}
+
+export interface AddMemberToRoleSuccessAction extends Action {
+    roleName: string,
+    user: IUserInRole
+}
+
+export function addMemberToRoleSuccess(user: IUserInRole, roleName: string): AddMemberToRoleSuccessAction {
+    return { type: AdminPermissionsKeys.ADD_MEMBER_TO_ROLE_SUCCESS, roleName, user }
 }
 
 export function dismissRemoveMemberFromRoleSuccess(): Action {
     return { type: AdminPermissionsKeys.DISMISS_REMOVE_MEMBER_FROM_ROLE_SUCCESS };
+}
+
+export function dismissAddMemberToRoleSuccess(): Action {
+    return { type: AdminPermissionsKeys.DISMISS_ADD_MEMBER_TO_ROLE_SUCCESS };
 }
 
 export function loadAdminPermissions() {
@@ -58,7 +71,17 @@ export function removeMemberFromRole(user: IUserInRole, role: string) {
     return function (dispatch: Dispatch) {
         return PermissionSettingsConnector.removeUserFromRole(user, role)
             .then((userRemove: AxiosResponse<IUserInRole>) => {
-                dispatch(removeMemberFromRoleSucces(userRemove.data, role));
+                dispatch(removeMemberFromRoleSuccess(userRemove.data, role));
+            })
+            .catch(error => { throw (error); });
+    }
+}
+
+export function addMemberToRole(user: IUserInRole, role: string) {
+    return function (dispatch: Dispatch) {
+        return PermissionSettingsConnector.addUserToRole(user, role)
+            .then((userAdded: AxiosResponse<IUserInRole>) => {
+                dispatch(addMemberToRoleSuccess(userAdded.data, role));
             })
             .catch(error => { throw (error); });
     }

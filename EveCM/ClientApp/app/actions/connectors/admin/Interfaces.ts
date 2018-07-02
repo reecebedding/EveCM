@@ -7,9 +7,11 @@ export interface IAdminPermissions {
 export interface IRoleInformation {
     data: {
         name: string,
-        users: IUserInRole[]
+        users: IUserInRole[],
+        usersToAdd: IUserInRole[]
     },
     ui: {
-        userRemoved: boolean
+        userRemoved: boolean,
+        userAdded: boolean
     }
 }

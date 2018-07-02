@@ -28,11 +28,37 @@ export function roleInformation(state = adminPermissionsState.roleInformation, a
                     ...state,
                     data: {
                         ...state.data,
-                        users: state.data.users.filter(u => u.id !== action.user.id)
+                        users: state.data.users.filter(u => u.id !== action.user.id),
+                        usersToAdd: [
+                            ...state.data.usersToAdd,
+                            action.user
+                        ]
                     },
                     ui: {
                         ...state.ui,
                         userRemoved: true
+                    }
+                };
+            } else {
+                return state;
+            }
+        }
+
+        case AdminPermissionsKeys.ADD_MEMBER_TO_ROLE_SUCCESS: {
+            if (state.data.name == action.roleName) {
+                return {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        users: [
+                            ...state.data.users,
+                            action.user
+                        ],
+                        usersToAdd: state.data.usersToAdd.filter(u => u.id !== action.user.id)
+                    },
+                    ui: {
+                        ...state.ui,
+                        userAdded: true
                     }
                 };
             } else {
@@ -46,6 +72,15 @@ export function roleInformation(state = adminPermissionsState.roleInformation, a
                 ui: {
                     ...state.ui,
                     userRemoved: false
+                }
+            };
+
+        case AdminPermissionsKeys.DISMISS_ADD_MEMBER_TO_ROLE_SUCCESS:
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    userAdded: false
                 }
             };
 
