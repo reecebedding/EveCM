@@ -4,23 +4,32 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const TSLintPlugin = require('tslint-webpack-plugin');
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
 const outputPath = path.resolve(__dirname, 'wwwroot');
 const clientPath = './ClientApp';
+
+function GetPathToComponentEntryFile(parentDir, fileName) {
+    return path.resolve(clientPath, 'app', 'components', parentDir, fileName);
+}
 
 module.exports = function (env, argv) {
 
     const isDevelopmentMode = argv.mode === 'development';
 
-    const config = {
+    const smp = new SpeedMeasurePlugin();
+
+    const config = smp.wrap({
         entry: {
             vendor: path.resolve(clientPath, 'vendor.js'),
-            app: path.resolve(clientPath, 'app', 'app.ts')
+            global: path.resolve(clientPath, 'app', 'global.ts'),
+            
+            home: GetPathToComponentEntryFile('Home', 'homePage.tsx'),
+            admin: GetPathToComponentEntryFile('Admin', 'adminPage.tsx')
         },
-        devtool: 'inline-source-map',
+        devtool: isDevelopmentMode ? 'inline-source-map' : '',
         output: {
-            filename: 'js/[name].[hash].js',
+            filename: isDevelopmentMode ? 'js/[name].js' : 'js/[name].[hash].js',
             path: outputPath
         },
         plugins: [
@@ -29,11 +38,9 @@ module.exports = function (env, argv) {
                 jQuery: "jquery"
             }),
             new CleanWebpackPlugin([
-                'css/*.*',
-                'js/*.*',
-                'images/*.*',
-                'favicon.ico'
+                '*'
             ], {
+                    exclude: [],
                     root: outputPath
                 }),
             new CopyWebpackPlugin([
@@ -41,86 +48,62 @@ module.exports = function (env, argv) {
                 { from: path.resolve(clientPath, 'assets', 'images', 'favicon.ico'), to: outputPath }
             ]),
             new MiniCssExtractPlugin({
-                filename: "css/[name].[hash].css",
-                chunkFilename: "[name].[hash].css"
-            }),
-            new TSLintPlugin({
-                files: [path.resolve(clientPath, '**/*.ts')],
-                format: 'prose',
-                force: false
+                filename: isDevelopmentMode ? 'css/[name].css' : 'css/[name].[hash].css',
+                chunkFilename: isDevelopmentMode ? '[name].css' : '[name].[hash].css'
             })
         ],
         module: {
             rules: [
                 {
-                    test: /\.css$/,
-                    use: [
-                        'style-loader',
-                        MiniCssExtractPlugin.loader,
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                sourceMap: true,
-                                minimize: !isDevelopmentMode
-                            }
-                        }
-                    ]
-                },
-                {
                     test: /\.(png|woff|woff2|eot|ttf|svg)$/,
                     use: [{
                         loader: 'url-loader',
                         options: {
-                            limit: 100000
+                            limit: 100000,
+                            name: 'fonts/[hash].[ext]'
                         }
                     }]
                 },
                 {
                     test: /\.scss$/,
-                    use: [{
-                        loader: "style-loader"
-                    }, MiniCssExtractPlugin.loader, {
-                        loader: "css-loader", options: {
-                            sourceMap: true
-                        }
-                    }, {
-                        loader: "sass-loader", options: {
-                            sourceMap: true,
-                            outputStyle: isDevelopmentMode ? "nested" : "compressed"
-                        }
-                    }]
-                },
-                {
-                    test: /\.ts$/,
                     use: [
+                        MiniCssExtractPlugin.loader,
                         {
-                            loader: 'babel-loader',
-                            options: {
-                                babelrc: true
+                            loader: "css-loader", options: {
+                                sourceMap: true
                             }
-                        },
-                        'ts-loader'
-                    ],
-                    exclude: /node_modules/
+                        }, {
+                            loader: "sass-loader", options: {
+                                sourceMap: true,
+                                outputStyle: isDevelopmentMode ? "nested" : "compressed"
+                            }
+                        }]
                 },
                 {
-                    test: /\.js$/,
-                    exclude: [
-                        /node_modules/,
-                    ],
-                    use: {
+                    test: /\.css$/,
+                    use: [
+                        'style-loader',
+                        'css-loader'
+                    ]
+                },
+                {
+                    test: /\.tsx?$/,
+                    use: [{
                         loader: 'babel-loader',
                         options: {
                             babelrc: true
                         }
-                    }
+                    },{
+                        loader: 'tslint-loader'
+                    }],
+                    exclude: /node_modules/
                 }
             ]
         },
         resolve: {
-            extensions: ['.ts', '.js']
+            extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
         }
-    }
+    });
 
     return config;
 }

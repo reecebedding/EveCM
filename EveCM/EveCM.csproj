@@ -8,7 +8,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\app\app.ts" />
+    <Compile Remove="ClientApp\app\Components\Home\Notifications\**" />
+    <Content Remove="ClientApp\app\Components\Home\Notifications\**" />
+    <EmbeddedResource Remove="ClientApp\app\Components\Home\Notifications\**" />
+    <None Remove="ClientApp\app\Components\Home\Notifications\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\app\actions\actionTypes.ts" />
+    <None Remove="ClientApp\app\actions\connectors\admin\Interfaces.ts" />
+    <None Remove="ClientApp\app\app.tsx" />
+    <None Remove="ClientApp\app\components\Admin\permissions\PermissionsDashboard.tsx" />
+    <None Remove="ClientApp\app\reducers\userReducer.ts" />
+    <None Remove="ClientApp\app\store\notificationReducer.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.2" />
@@ -29,7 +43,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\app\app.ts" />
+    <TypeScriptCompile Include="ClientApp\app\actions\actionTypes.ts" />
+    <TypeScriptCompile Include="ClientApp\app\actions\connectors\admin\Interfaces.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\Admin\permissions\PermissionsDashboard.tsx" />
+    <TypeScriptCompile Include="ClientApp\app\components\common\bulletins\BulletinBoard.tsx" />
+    <TypeScriptCompile Include="ClientApp\app\reducers\bulletinReducer.ts" />
+    <TypeScriptCompile Include="ClientApp\app\reducers\userReducer.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Shared\Components\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ErrorViewModel.ts">
+      <CustomToolNamespace>Models\ErrorViewModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="LoginViewModel.ts">
+      <CustomToolNamespace>Models\AuthenticationViewModels\LoginViewModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="RegisterViewModel.ts">
+      <CustomToolNamespace>Models\AuthenticationViewModels\RegisterViewModel.cs</CustomToolNamespace>
+    </None>
   </ItemGroup>
 
 </Project>

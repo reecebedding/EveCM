@@ -5,14 +5,14 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using EveCM.Data.Repositories.Contracts;
-using EveCM.Managers.Contracts;
-using EveCM.Managers.Contracts.Profile;
+using EveCM.Managers;
+using EveCM.Managers.Profile.Contracts;
 using EveCM.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using static EveCM.Managers.Contracts.Profile.Exceptions;
+using static EveCM.Data.Repositories.PSQL.Exceptions;
 
 namespace EveCM.Controllers
 {

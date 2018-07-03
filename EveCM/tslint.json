@@ -1,9 +1,8 @@
-{
-  "defaultSeverity": "error",
+﻿{
   "extends": [
-    "tslint-config-airbnb"
+    "tslint-react"
   ],
-  "jsRules": {},
-  "rules": {},
-  "rulesDirectory": []
+  "rules": {
+    "jsx-no-multiline-js":  false
+  }
 }

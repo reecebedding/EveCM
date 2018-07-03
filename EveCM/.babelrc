@@ -1,12 +1,10 @@
 ﻿{
-	presets: [
-		[
-			'env',
-			{
-				targets: { browsers: ['>1%'] },
-                debug: true,
-				useBuiltins: true
-            }
-        ]
-    ]
+  "presets": [
+    "env",
+    "react"
+  ],
+  "plugins": [
+    "transform-object-rest-spread",
+    "transform-class-properties"
+  ]
 }

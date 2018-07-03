@@ -73,6 +73,24 @@ namespace EveCM.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("EveCM.Models.Bulletin.Bulletin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId");
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bulletins");
+                });
+
             modelBuilder.Entity("EveCM.Models.CharacterDetails", b =>
                 {
                     b.Property<int>("CharacterID")

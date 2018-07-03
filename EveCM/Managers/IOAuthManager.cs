@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EveCM.Managers.Contracts
+namespace EveCM.Managers
 {
     public interface IOAuthManager
     {

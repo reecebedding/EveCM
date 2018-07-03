@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EveCM.Models;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -9,10 +11,10 @@ namespace EveCM.Utils
 {
     public static class IdentityExtensions
     {
-        public static string PortraitUrl(this IIdentity identity, EveImageHelper.CharacterAvatarSize imageSize = EveImageHelper.CharacterAvatarSize.Two_Fifty_Six)
+        public static string PortraitUrl(this ClaimsPrincipal identity, UserManager<ApplicationUser> userManager, EveImageHelper.CharacterAvatarSize imageSize = EveImageHelper.CharacterAvatarSize.Two_Fifty_Six)
         {
             string avatarUrl = string.Empty;
-            var characterId = identity.PrimaryCharacterId();
+            var characterId = userManager.GetUserAsync(identity).Result.PrimaryCharacterId;
             if (string.IsNullOrEmpty(characterId))
                 avatarUrl = "/images/guest.png";
             else
@@ -20,10 +22,10 @@ namespace EveCM.Utils
             return avatarUrl;
         }
 
-        public static string PrimaryCharacterId(this IIdentity identity)
+        public static string PrimaryCharacterId(this ClaimsPrincipal identity, UserManager<ApplicationUser> userManager)
         {
-            var claim = ((ClaimsIdentity)identity).FindFirst("PrimaryCharacterId");
-            return claim?.Value ?? string.Empty;
+            ApplicationUser user = userManager.GetUserAsync(identity).Result;
+            return user.PrimaryCharacterId;
         }
     }
 }

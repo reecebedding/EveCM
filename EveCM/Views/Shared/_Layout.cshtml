@@ -1,4 +1,4 @@
-﻿
+﻿@inject UserManager<ApplicationUser> UserManager
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,11 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - evecm</title>
 
-    <link rel="stylesheet" asp-href-include="~/css/vendor.*.css" />
-    <link rel="stylesheet" asp-href-include="~/css/app.*.css" />
+    <link rel="stylesheet" asp-href-include="~/css/vendor*.css" />
+    <link rel="stylesheet" asp-href-include="~/css/global*.css" />
 </head>
 <body>
-
     <nav class="side-navbar">
         <div class="side-navbar-wrapper">
             <div class="sidenav-header d-flex align-items-center justify-content-center">
@@ -18,10 +17,10 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <a asp-controller="Profile" asp-action="Index">
-                            <img src="@User.Identity.PortraitUrl()" alt="person" class="img-fluid rounded-circle">
+                            <img src="@User.PortraitUrl(UserManager)" alt="person" class="img-fluid rounded-circle">
                         </a>
                         <h2 class="h5">@User.Identity.Name</h2>
-                        <a asp-controller="Auth" asp-action="Logout"><span class="text-secondary">Logout</span> <i class="fa fa-sign-out"></i></a>
+                        <a asp-controller="Auth" asp-action="Logout"><span class="text-secondary">Logout</span> <i class="fas fa-sign-out-alt"></i></a>
                     }
                     else
                     {
@@ -29,23 +28,23 @@
                             <img src="~/images/guest.png" alt="person" class="img-fluid rounded-circle">
                         </a>
                         <h2 class="h5">Guest</h2>
-                        <a asp-controller="Auth" asp-action="Login"><span class="text-secondary">Login</span> <i class="fa fa-sign-in"></i></a>
+                        <a asp-controller="Auth" asp-action="Login"><span class="text-secondary">Login</span> <i class="fas fa-sign-in-alt"></i></a>
                     }
                 </div>
                 <div class="sidenav-header-logo">
                     @if (User.Identity.IsAuthenticated)
                     {
                         <a asp-controller="Profile" asp-action="Index" class="brand-small text-center">
-                            <img src="@User.Identity.PortraitUrl()" alt="person" class="img-fluid rounded-circle">
+                            <img src="@User.PortraitUrl(UserManager)" alt="person" class="img-fluid rounded-circle">
                         </a>
-                        <a asp-controller="Auth" asp-action="Logout" class="brand-small text-center"><i class="fa fa-sign-out"></i></a>
+                        <a asp-controller="Auth" asp-action="Logout" class="brand-small text-center"><i class="fa fa-sign-out-alt"></i></a>
                     }
                     else
                     {
                         <a asp-controller="Profile" asp-action="Index" class="brand-small text-center">
                             <img src="~/images/guest.png" alt="person" class="img-fluid rounded-circle">
                         </a>
-                        <a asp-controller="Auth" asp-action="Login" class="brand-small text-center"><i class="fa fa-sign-in"></i></a>
+                        <a asp-controller="Auth" asp-action="Login" class="brand-small text-center"><i class="fa fa-sign-in-alt"></i></a>
                     }
                 </div>
             </div>
@@ -54,6 +53,15 @@
                     <li><a asp-controller="Home" asp-action="Index"><img src="~/images/container.png"> Home</a></li>
                 </ul>
             </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="main-menu">
+                    <h5 class="sidenav-heading">Admin</h5>
+                    <ul id="side-app-admin-menu" class="side-menu list-unstyled">
+                        <li><a asp-controller="Admin" asp-action="Index"><img src="~/images/settings.png"> Settings</a></li>
+                    </ul>
+                </div>
+            }
         </div>
     </nav>
     <div class="page">
@@ -62,7 +70,7 @@
                 <div class="container-fluid">
                     <div class="navbar-holder d-flex align-items-center justify-content-between">
                         <div class="navbar-header">
-                            <a id="toggle-btn" href="#" class="menu-btn"><i class="fa fa-align-justify"> </i></a><a asp-controller="Home" asp-action="Index" class="navbar-brand">
+                            <a id="toggle-btn" href="#" class="menu-btn"><i class="fas fa-align-justify"></i></a><a asp-controller="Home" asp-action="Index" class="navbar-brand">
                                 <div class="brand-text d-none d-md-inline-block"><strong class="text-primary">EveCM</strong></div>
                             </a>
                         </div>
@@ -72,16 +80,15 @@
         </header>
         <section class="section-padding">
             <div class="container-fluid">
-                <div class="row">
+                <div>
                     @RenderBody()
                 </div>
             </div>
         </section>
     </div>
-
-    <script asp-src-include="~/js/vendor.*.js" asp-append-version="true"></script>
-    <script asp-src-include="~/js/app.*.js" asp-append-version="true"></script>
-
+    <script asp-src-include="~/js/vendor*.js" asp-append-version="true"></script>
+    <script asp-src-include="~/js/global*.js" asp-append-version="true"></script>
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>

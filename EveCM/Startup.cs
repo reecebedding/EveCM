@@ -5,12 +5,17 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using EveCM.Data;
 using EveCM.Data.Repositories.Contracts;
 using EveCM.Data.Repositories.PSQL;
 using EveCM.Managers;
-using EveCM.Managers.Contracts;
-using EveCM.Managers.Contracts.Profile;
+using EveCM.Managers.Admin;
+using EveCM.Managers.Admin.Contracts;
+using EveCM.Managers.Bulletin;
+using EveCM.Managers.Bulletin.Contracts;
+using EveCM.Managers.Profile;
+using EveCM.Managers.Profile.Contracts;
 using EveCM.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -65,18 +70,26 @@ namespace EveCM
 
             services.AddMemoryCache();
             services.AddSession();
+            services.AddAuthorization();
             services.AddMvc();
+            services.AddAutoMapper();
         }
 
         private void RegisterDIBindings(IServiceCollection services)
         {
             services.AddTransient<IOAuthManager, OAuthManager>();
-            services.AddTransient<ICharacterRepository, CharacterRepository>();
             services.AddTransient<IProfileManager, ProfileManager>();
+            services.AddTransient<IBulletinManager, BulletinManager>();
+            services.AddTransient<IAdminManager, AdminManager>();
+
+            services.AddTransient<ICharacterRepository, CharacterRepository>();
+            services.AddTransient<IBulletinRepository, BulletinRepository>();
+
+            services.AddTransient<EveCMContextSeeder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, EveCMContextSeeder contextSeeder)
         {
             if (env.IsDevelopment())
             {
@@ -101,6 +114,8 @@ namespace EveCM
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            contextSeeder.Seed();
         }
     }
 }
