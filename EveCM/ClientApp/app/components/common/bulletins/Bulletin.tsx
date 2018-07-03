@@ -6,7 +6,7 @@ const Bulletin: React.SFC<{ bulletin: IBulletin }> = (props) => (
         <h5 className="card-title">{props.bulletin.title}</h5>
         <p className="card-text">{props.bulletin.content}</p>
         <footer className="blockquote-footer">
-            <img src={props.bulletin.authorCharacter.avatarUrl} className="mr-2" />
+            <img src={props.bulletin.authorCharacter.avatarUrl} className="mr-2" width="32px" />
             {props.bulletin.authorCharacter.userName} - {new Date(props.bulletin.date).toLocaleDateString()}
         </footer>
     </div>
