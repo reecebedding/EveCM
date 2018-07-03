@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EveCM.Controllers.API
 {
     [Route("api/admin")]
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminPermissionsController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

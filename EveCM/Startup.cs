@@ -84,10 +84,12 @@ namespace EveCM
 
             services.AddTransient<ICharacterRepository, CharacterRepository>();
             services.AddTransient<IBulletinRepository, BulletinRepository>();
+
+            services.AddTransient<EveCMContextSeeder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, EveCMContextSeeder contextSeeder)
         {
             if (env.IsDevelopment())
             {
@@ -112,6 +114,8 @@ namespace EveCM
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            contextSeeder.Seed();
         }
     }
 }

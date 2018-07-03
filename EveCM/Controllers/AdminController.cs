@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EveCM.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         public IActionResult Index()

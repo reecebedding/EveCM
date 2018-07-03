@@ -10,7 +10,7 @@ using System.Linq;
 namespace EveCM.Controllers.API
 {
     [Route("api/Bulletin")]
-    [Authorize]
+    [Authorize(Roles = "Corp_Member, Admin")]
     public class BulletinController : Controller
     {
         private readonly IBulletinManager _bulletinManager;
@@ -39,7 +39,7 @@ namespace EveCM.Controllers.API
         }
 
         [HttpPost("")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult NewBulletin([FromBody]BulletinDto bulletinDto)
         {
             if (!ModelState.IsValid)
