@@ -2,7 +2,7 @@
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import AdminDashboard from './AdminDashBoard';
+import AdminDashboard from './AdminDashboard';
 
 import configureStore from '../../store/configureStore';
 import { bulletinState } from '../../reducers/initialState';
