@@ -17,7 +17,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <a asp-controller="Profile" asp-action="Index">
-                            <img src="@User.PortraitUrl(UserManager)" alt="person" class="img-fluid rounded-circle">
+                            <img src="@User.AvatarUrl(UserManager)" alt="person" class="img-fluid rounded-circle">
                         </a>
                         <h2 class="h5">@User.Identity.Name</h2>
                         <a asp-controller="Auth" asp-action="Logout"><span class="text-secondary">Logout</span> <i class="fas fa-sign-out-alt"></i></a>
@@ -35,7 +35,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <a asp-controller="Profile" asp-action="Index" class="brand-small text-center">
-                            <img src="@User.PortraitUrl(UserManager)" alt="person" class="img-fluid rounded-circle">
+                            <img src="@User.AvatarUrl(UserManager)" alt="person" class="img-fluid rounded-circle">
                         </a>
                         <a asp-controller="Auth" asp-action="Logout" class="brand-small text-center"><i class="fa fa-sign-out-alt"></i></a>
                     }

@@ -13,9 +13,9 @@ namespace EveCM.Tests
             string characterId = "12345";
             string expectedUrl = $"https://image.eveonline.com/Character/{characterId}_256.jpg";
 
-            Uri actualUri = EveImageHelper.GetCharacterAvatar(characterId);
+            string actualUri = EveImageHelper.GetCharacterAvatar(characterId);
 
-            Assert.AreEqual(expectedUrl, actualUri.ToString());
+            Assert.AreEqual(expectedUrl, actualUri);
         }
 
         [TestMethod]
@@ -25,9 +25,9 @@ namespace EveCM.Tests
             EveImageHelper.CharacterAvatarSize size = EveImageHelper.CharacterAvatarSize.Five_Hundred_Twelve;
             string expectedUrl = $"https://image.eveonline.com/Character/{characterId}_512.jpg";
 
-            Uri actualUri = EveImageHelper.GetCharacterAvatar(characterId, size);
+            string actualUri = EveImageHelper.GetCharacterAvatar(characterId, size);
 
-            Assert.AreEqual(expectedUrl, actualUri.ToString());
+            Assert.AreEqual(expectedUrl, actualUri);
         }
     }
 }

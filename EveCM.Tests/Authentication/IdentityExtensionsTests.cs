@@ -37,7 +37,7 @@ namespace EveCM.Tests.Authentication
             Mock<UserManager<ApplicationUser>> mockUserManager = MockUserManager<ApplicationUser>();
             mockUserManager.Setup(x => x.GetUserAsync(user)).ReturnsAsync(expectedApplicationUser);
 
-            string result = IdentityExtensions.PortraitUrl(user, mockUserManager.Object);
+            string result = IdentityExtensions.AvatarUrl(user, mockUserManager.Object);
 
             Assert.AreEqual(expectedUrl, result);
         }
@@ -66,7 +66,7 @@ namespace EveCM.Tests.Authentication
             Mock<UserManager<ApplicationUser>> mockUserManager = MockUserManager<ApplicationUser>();
             mockUserManager.Setup(x => x.GetUserAsync(user)).ReturnsAsync(expectedApplicationUser);
 
-            string result = IdentityExtensions.PortraitUrl(user, mockUserManager.Object, size);
+            string result = IdentityExtensions.AvatarUrl(user, mockUserManager.Object, size);
 
             Assert.AreEqual(expectedUrl, result);
         }

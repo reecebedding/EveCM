@@ -11,7 +11,7 @@ namespace EveCM.Models
         {
             get
             {
-                return Utils.EveImageHelper.GetCharacterAvatar(PrimaryCharacterId).AbsoluteUri;
+                return Utils.EveImageHelper.GetCharacterAvatar(PrimaryCharacterId);
             }
         }
         public string UserName { get; set; }

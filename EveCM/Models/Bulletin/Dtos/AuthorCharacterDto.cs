@@ -11,10 +11,7 @@ namespace EveCM.Models.Bulletin.Dtos
         {
             get
             {
-                string avatarUrl = "images/guest.png";
-                if (!string.IsNullOrEmpty(CharacterId))
-                    avatarUrl = Utils.EveImageHelper.GetCharacterAvatar(CharacterId, Utils.EveImageHelper.CharacterAvatarSize.Thirty_Two).AbsoluteUri;
-                return avatarUrl;
+                return Utils.EveImageHelper.GetCharacterAvatar(CharacterId, Utils.EveImageHelper.CharacterAvatarSize.Thirty_Two);
             }
         }
     }

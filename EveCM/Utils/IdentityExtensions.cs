@@ -11,7 +11,7 @@ namespace EveCM.Utils
 {
     public static class IdentityExtensions
     {
-        public static string PortraitUrl(this ClaimsPrincipal identity, UserManager<ApplicationUser> userManager, EveImageHelper.CharacterAvatarSize imageSize = EveImageHelper.CharacterAvatarSize.Two_Fifty_Six)
+        public static string AvatarUrl(this ClaimsPrincipal identity, UserManager<ApplicationUser> userManager, EveImageHelper.CharacterAvatarSize imageSize = EveImageHelper.CharacterAvatarSize.Two_Fifty_Six)
         {
             string avatarUrl = string.Empty;
             var characterId = userManager.GetUserAsync(identity).Result.PrimaryCharacterId;
