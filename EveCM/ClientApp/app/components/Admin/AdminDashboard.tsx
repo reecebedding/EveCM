@@ -3,7 +3,7 @@ import { IUser } from '../common/userDetails/interfaces/Interfaces';
 import { IBulletinStoreState } from '../../store/IStoreState';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import PermissionDashboard from './permissions/PermissionsDashboard';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card } from 'reactstrap';
@@ -40,7 +40,7 @@ export class AdminDashboard extends React.Component<IProps, IState> {
             <div>
                 <Nav tabs={true}>
                     <NavItem>
-                        <NavLink className={classnames({ active: this.state.activeTabName === 'permissions' })} onClick={this.toggleTab.bind(this, 'permissions')} >
+                        <NavLink className={classNames({ active: this.state.activeTabName === 'permissions' })} onClick={this.toggleTab.bind(this, 'permissions')} >
                             Permissions
                         </NavLink>
                     </NavItem>

@@ -23,7 +23,7 @@ module.exports = function (env, argv) {
         entry: {
             vendor: path.resolve(clientPath, 'vendor.js'),
             global: path.resolve(clientPath, 'app', 'global.ts'),
-            
+
             home: GetPathToComponentEntryFile('Home', 'homePage.tsx'),
             admin: GetPathToComponentEntryFile('Admin', 'adminPage.tsx')
         },
@@ -88,14 +88,20 @@ module.exports = function (env, argv) {
                 },
                 {
                     test: /\.tsx?$/,
-                    use: [{
-                        loader: 'babel-loader',
-                        options: {
-                            babelrc: true
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                babelrc: true
+                            }
+                        },
+                        {
+                            loader: 'awesome-typescript-loader'
+                        },
+                        {
+                            loader: 'tslint-loader'
                         }
-                    },{
-                        loader: 'tslint-loader'
-                    }],
+                    ],
                     exclude: /node_modules/
                 }
             ]

@@ -20,8 +20,7 @@ interface IProps {
 }
 
 interface IState {
-    newBulletinVisible: boolean,
-    newBulletin: IBulletin
+    newBulletinVisible: boolean
 }
 
 export class BulletinBoard extends React.Component<IProps, IState> {

@@ -4,11 +4,13 @@ import { Button } from 'reactstrap';
 import Select from 'react-select'
 import { IUserInRole } from './interfaces/Interfaces';
 import { IRoleInformation } from '../../../actions/connectors/admin/Interfaces';
+//@ts-ignore
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { IAdminPermissionsStoreState } from '../../../store/IStoreState';
-import { Dispatch } from 'redux';
+import { Dispatch, AnyAction } from 'redux';
 import * as AdminActions from '../../../actions/adminActions';
 import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 interface IProps {
     addUserAction: (user: IUserInRole, roleName: string) => any,
@@ -87,12 +89,11 @@ class AddMemberToRoleInput extends React.Component<IProps, IState> {
                         <div className="col-5 pr-1">
                             <Select
                                 value={this.state.selectedUserToAdd}
-                                onChange={this.handleChangeInUserToAddDropDown}
+                                onChange={this.handleChangeInUserToAddDropDown.bind(this)}
                                 options={this.props.roleInformation.data.usersToAdd}
                                 labelKey="userName"
-                                openOnClick={false}
                                 openOnFocus={false}
-                                optionRenderer={this.renderUserToAddOption}
+                                optionRenderer={this.renderUserToAddOption.bind(this)}
                             />
                         </div>
                         <div className="col-3 pt-1">
@@ -118,7 +119,7 @@ function mapStateToProps(state: IAdminPermissionsStoreState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
+function mapDispatchToProps(dispatch: ThunkDispatch<IAdminPermissionsStoreState, null, AnyAction>) {
     return {
         dismissAddUserToRole: () => dispatch(AdminActions.dismissAddMemberToRoleSuccess()),
         addUserAction: (user: IUserInRole, roleName: string) => dispatch(AdminActions.addMemberToRole(user, roleName))

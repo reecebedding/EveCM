@@ -1,9 +1,11 @@
 ﻿import * as React from 'react';
 
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
+//@ts-ignore
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 
-import { connect, Dispatch } from 'react-redux';
+import { connect } from 'react-redux';
+import { Dispatch, AnyAction } from 'redux';
 import { IAdminPermissionsStoreState } from '../../../store/IStoreState';
 import { IAdminPermissions, IRoleInformation } from '../../../actions/connectors/admin/Interfaces';
 import * as AdminActions from '../../../actions/adminActions';
@@ -11,14 +13,15 @@ import MembersInRole from './MembersInRole';
 import { IUserInRole } from './interfaces/Interfaces';
 import ConfirmModal from '../../common/dialogs/confirmModal';
 import AddMemberToRoleInput from './AddMemberToRoleInput';
+import { ThunkDispatch } from 'redux-thunk';
 
 interface IProps {
     permissions: IAdminPermissions,
-    dismissRemoveUserFromRole: () => void,
-    loadPermissions: () => void,
-    loadRoleInformation: (roleName: string) => void,
+    dismissRemoveUserFromRole: () => any,
+    loadPermissions: () => any,
+    loadRoleInformation: (roleName: string) => any,
     roleInformation: IRoleInformation,
-    removeUserFromRole: (user: IUserInRole, roleName: string) => void
+    removeUserFromRole: (user: IUserInRole, roleName: string) => any
 }
 
 interface IState {
@@ -150,7 +153,7 @@ function mapStateToProps(state: IAdminPermissionsStoreState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
+function mapDispatchToProps(dispatch: ThunkDispatch<IAdminPermissionsStoreState, null, AnyAction>) {
     return {
         loadPermissions: () => dispatch(AdminActions.loadAdminPermissions()),
         loadRoleInformation: (roleName: string) => dispatch(AdminActions.loadRoleInformation(roleName)),

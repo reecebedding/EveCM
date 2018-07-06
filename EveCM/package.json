@@ -8,14 +8,16 @@
     "build:prod": "webpack --mode production"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.4",
     "@types/node": "^9.6.2",
     "@types/react": "^16.3.17",
     "@types/react-dom": "^16.0.6",
     "@types/react-redux": "^6.0.2",
+    "@types/react-select": "^1.2.7",
     "@types/reactstrap": "^6.0.0",
     "@types/redux-immutable-state-invariant": "^2.0.4",
-    "@types/react-select": "^1.2.7",
     "@types/redux-thunk": "^2.1.0",
+    "awesome-typescript-loader": "^5.2.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -27,7 +29,7 @@
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
     "mini-css-extract-plugin": "^0.4.0",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.9.1",
     "popper.js": "^1.14.3",
     "redux-devtools-extension": "^2.13.5",
     "sass-loader": "^6.0.7",
@@ -58,6 +60,7 @@
     "react-redux": "^5.0.7",
     "react-select": "^1.2.1",
     "reactstrap": "^6.1.0",
+    "redux": "^4.0.0",
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.3.0"
   }

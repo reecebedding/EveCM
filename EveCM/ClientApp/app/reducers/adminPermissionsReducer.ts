@@ -19,7 +19,10 @@ export function roleInformation(state = adminPermissionsState.roleInformation, a
         case AdminPermissionsKeys.LOAD_ROLE_INFORMATION_SUCCESS:
             return {
                 ...state,
-                data: action.roleInformation
+                data: {
+                    ...state.data,
+                    ...action.roleInformation
+                }
             };
 
         case AdminPermissionsKeys.REMOVE_MEMBER_FROM_ROLE_SUCCESS: {

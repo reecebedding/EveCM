@@ -9,7 +9,8 @@
     "skipLibCheck": true,
     "strict": true,
     "jsx": "react",
-    "lib": [ "es6", "dom" ]
+    "lib": [ "es6", "dom" ],
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "bin",
