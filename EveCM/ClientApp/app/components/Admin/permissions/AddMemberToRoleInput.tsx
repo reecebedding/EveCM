@@ -4,13 +4,12 @@ import { Button } from 'reactstrap';
 import Select from 'react-select'
 import { IUserInRole } from './interfaces/Interfaces';
 import { IRoleInformation } from '../../../actions/connectors/admin/Interfaces';
-//@ts-ignore
-import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { IAdminPermissionsStoreState } from '../../../store/IStoreState';
 import { Dispatch, AnyAction } from 'redux';
 import * as AdminActions from '../../../actions/adminActions';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
+import { NotificationAlertContainer, NotificationAlertManager, NotificationType } from '../../common/notifications/NotificationAlert';
 
 interface IProps {
     addUserAction: (user: IUserInRole, roleName: string) => any,
@@ -36,7 +35,7 @@ class AddMemberToRoleInput extends React.Component<IProps, IState> {
     componentDidUpdate() {
         if (this.props.roleInformation.ui.userAdded) {
             this.props.dismissAddUserToRole();
-            NotificationManager.success('User successfully added', '', 0);
+            NotificationAlertManager.alert(NotificationType.Success, 'User successfully added');
         }
     }
 
@@ -108,7 +107,7 @@ class AddMemberToRoleInput extends React.Component<IProps, IState> {
                     title='Confirm add user'
                     body={`Are you sure you want to add ${this.state.selectedUserToAdd.userName} to ${this.props.roleInformation.data.name}?`}
                 />
-                <NotificationContainer />
+                <NotificationAlertContainer />
             </div>
         );
     }
