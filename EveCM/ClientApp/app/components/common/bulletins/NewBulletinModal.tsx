@@ -2,14 +2,15 @@
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import * as BulletinActions from '../../../actions/bulletinActions';
-import { Dispatch } from 'redux';
+import { Dispatch, AnyAction } from 'redux';
 import { IBulletinStoreState } from '../../../store/IStoreState';
 import { IBulletin } from './interfaces/Interfaces';
+import { ThunkDispatch } from 'redux-thunk';
 
 interface IProps {
     active: boolean,
     toggle: () => void,
-    save: (bulletin: IBulletin) => void
+    save: (bulletin: IBulletin) => any
 }
 
 interface IState {
@@ -96,7 +97,7 @@ function mapStateToProps(state: IBulletinStoreState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
+function mapDispatchToProps(dispatch: ThunkDispatch<IBulletinStoreState, null, AnyAction>) {
     return {
         save: (bulletin: IBulletin) => dispatch(BulletinActions.saveBulletin(bulletin))
     };
