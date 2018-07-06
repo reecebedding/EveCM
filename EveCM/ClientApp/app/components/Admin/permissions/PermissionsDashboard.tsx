@@ -1,8 +1,6 @@
 ﻿import * as React from 'react';
 
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
-//@ts-ignore
-import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 import { connect } from 'react-redux';
 import { Dispatch, AnyAction } from 'redux';
@@ -14,6 +12,7 @@ import { IUserInRole } from './interfaces/Interfaces';
 import ConfirmModal from '../../common/dialogs/confirmModal';
 import AddMemberToRoleInput from './AddMemberToRoleInput';
 import { ThunkDispatch } from 'redux-thunk';
+import { NotificationAlertContainer, NotificationAlertManager, NotificationType } from '../../common/notifications/NotificationAlert';
 
 interface IProps {
     permissions: IAdminPermissions,
@@ -49,7 +48,7 @@ class PermissionsDashboard extends React.Component<IProps, IState> {
     componentDidUpdate() {
         if (this.props.roleInformation.ui.userRemoved) {
             this.props.dismissRemoveUserFromRole();
-            NotificationManager.success('User successfully removed', '', 0);
+            NotificationAlertManager.alert(NotificationType.Success, 'User successfully removed');
         }
     }
 
@@ -132,7 +131,7 @@ class PermissionsDashboard extends React.Component<IProps, IState> {
                             )
                     }
                 </div>
-                <NotificationContainer />
+                <NotificationAlertContainer />
                 <ConfirmModal
                     active={this.state.displayConfirmRemove}
                     toggle={this.toggleConfirmRemoveModal.bind(this, this.constructDefaultUser())}
