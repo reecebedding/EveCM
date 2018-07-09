@@ -13,5 +13,7 @@ namespace EveCM.Managers.Bulletin.Contracts
         Models.Bulletin.Bulletin GetBulletin(int id);
         Models.Bulletin.Bulletin SaveNewBulletin(Models.Bulletin.Bulletin bulletin, ClaimsPrincipal user);
         Models.Bulletin.Bulletin RemoveBulletin(Models.Bulletin.Bulletin bulletin);
+        Models.Bulletin.Bulletin ReplaceBulletin(Models.Bulletin.Bulletin bulletin);
+        Models.Bulletin.Bulletin Detach(Models.Bulletin.Bulletin bulletin);
     }
 }

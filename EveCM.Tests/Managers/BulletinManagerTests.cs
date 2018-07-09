@@ -29,7 +29,7 @@ namespace EveCM.Tests.Managers
                     Content = $"Test content: {i}",
                     Title = $"Test title: {i}",
                     Id = i,
-                    Date = DateTime.Now
+                    CreatedDate = DateTime.Now
                 });
             }
 
@@ -72,7 +72,7 @@ namespace EveCM.Tests.Managers
                     Content = $"Test content: {i}",
                     Title = $"Test title: {i}",
                     Id = i,
-                    Date = DateTime.Now
+                    CreatedDate = DateTime.Now
                 });
             }
 
@@ -113,7 +113,7 @@ namespace EveCM.Tests.Managers
             Bulletin bulletin = new Bulletin()
             {
                 Id = 123,
-                Date = DateTime.Now,
+                CreatedDate = DateTime.Now,
                 Title = "TestTitle",
                 Content = "TestContent",
                 AuthorId = "12345"
@@ -185,7 +185,7 @@ namespace EveCM.Tests.Managers
             Bulletin actualBulletin = manager.SaveNewBulletin(bulletin, claimsUser);
 
             mockRepository.Verify(x => x.SaveBulletin(bulletin), Times.Once);
-            Assert.AreEqual(DateTime.Now.ToShortDateString(), actualBulletin.Date.ToShortDateString());
+            Assert.AreEqual(DateTime.Now.ToShortDateString(), actualBulletin.CreatedDate.ToShortDateString());
         }
 
         [TestMethod]

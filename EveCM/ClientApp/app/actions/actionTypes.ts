@@ -6,7 +6,8 @@ import * as adminActions from './adminActions';
 export type BulletinActions =
     bulletinActions.LoadBulletinSuccessAction
     & bulletinActions.SaveBulletinSuccessAction
-    & bulletinActions.RemoveBulletinSuccessAction;
+    & bulletinActions.RemoveBulletinSuccessAction
+    & bulletinActions.ReplaceBulletinSuccessAction;
 
 export type UserActions = userActions.LoadUserSuccessAction;
 

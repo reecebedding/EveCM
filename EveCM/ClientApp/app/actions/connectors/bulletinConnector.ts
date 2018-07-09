@@ -12,3 +12,7 @@ export function saveNewBulletin(bulletin: IBulletin) {
 export function removeBulletin(bulletin: IBulletin) {
     return axios.delete(`/api/bulletin/${bulletin.id}`);
 }
+
+export function replaceBulletin(bulletin: IBulletin) {
+    return axios.put(`/api/bulletin/${bulletin.id}`, bulletin);
+}

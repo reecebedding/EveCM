@@ -12,5 +12,7 @@ namespace EveCM.Data.Repositories.Contracts
         Bulletin GetBulletin(int id);
         Bulletin SaveBulletin(Bulletin bulletin);
         Bulletin RemoveBulletin(Bulletin bulletin);
+        Bulletin ReplaceBulletin(Bulletin bulletin);
+        void Detach(Bulletin bulletin);
     }
 }
