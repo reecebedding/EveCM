@@ -8,3 +8,7 @@ export function getAllBulletins(){
 export function saveNewBulletin(bulletin: IBulletin) {
     return axios.post('/api/bulletin', bulletin);
 }
+
+export function removeBulletin(bulletin: IBulletin) {
+    return axios.delete(`/api/bulletin/${bulletin.id}`);
+}

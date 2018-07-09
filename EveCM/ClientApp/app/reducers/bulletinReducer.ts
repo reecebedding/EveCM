@@ -14,6 +14,9 @@ export default function bulletins(state = bulletinState.bulletins, action: Bulle
                 ...state
             ];
 
+        case BulletinKeys.REMOVE_BULLETIN_SUCCESS:
+            return state.filter(bulletin => bulletin.id !== action.bulletin.id)
+          
         default:
             return state;
     }

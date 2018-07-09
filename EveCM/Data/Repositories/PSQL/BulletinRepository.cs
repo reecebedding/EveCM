@@ -34,6 +34,14 @@ namespace EveCM.Data.Repositories.PSQL
             return bulletins;
         }
 
+        public Bulletin RemoveBulletin(Bulletin bulletin)
+        {
+            Bulletin bulletinRemoved = db.Bulletins.Remove(bulletin).Entity;
+            db.SaveChanges();
+
+            return bulletinRemoved;
+        }
+
         public Bulletin SaveBulletin(Bulletin bulletin)
         {
             Bulletin savedBulletin = db.Bulletins.Add(bulletin).Entity;

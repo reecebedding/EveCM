@@ -12,5 +12,6 @@ namespace EveCM.Managers.Bulletin.Contracts
         IEnumerable<Models.Bulletin.Bulletin> GetBulletins(out int totalCount, int? count = null);
         Models.Bulletin.Bulletin GetBulletin(int id);
         Models.Bulletin.Bulletin SaveNewBulletin(Models.Bulletin.Bulletin bulletin, ClaimsPrincipal user);
+        Models.Bulletin.Bulletin RemoveBulletin(Models.Bulletin.Bulletin bulletin);
     }
 }

@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
-interface Iprops {
+interface IProps {
     active: boolean,
     toggle: () => void,
     onConfirm: () => void,
@@ -12,7 +12,7 @@ interface Iprops {
     declineButtonText?: string
 }
 
-export default class ConfirmModal extends React.Component<Iprops> {
+export default class ConfirmModal extends React.Component<IProps> {
     static defaultProps = {
         confirmButtonText: 'Yes',
         declineButtonText: 'No',

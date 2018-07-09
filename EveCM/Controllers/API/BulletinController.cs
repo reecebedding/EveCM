@@ -55,5 +55,15 @@ namespace EveCM.Controllers.API
 
             return Created(url, savedBulletinDto);
         }
+        
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult RemoveBulletin(int id)
+        {
+            Bulletin bulletinToRemove = _bulletinManager.GetBulletin(id);
+
+            Bulletin removedBulletin = _bulletinManager.RemoveBulletin(bulletinToRemove);
+            return Ok(removedBulletin);
+        }
     }
 }
