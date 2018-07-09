@@ -7,6 +7,7 @@ export interface IBulletin {
     id: number,
     title: string,
     content: string,
-    date: Date,
+    createdDate: Date,
+    updatedDate?: Date
     authorCharacter: IAuthor
 }

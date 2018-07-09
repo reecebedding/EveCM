@@ -22,9 +22,16 @@ namespace EveCM.Managers.Bulletin
             _userManager = userManager;
         }
 
+        public Models.Bulletin.Bulletin Detach(Models.Bulletin.Bulletin bulletin)
+        {
+            _bulletinRepository.Detach(bulletin);
+            return bulletin;
+        }
+
         public Models.Bulletin.Bulletin GetBulletin(int id)
         {
             Models.Bulletin.Bulletin bulletin = _bulletinRepository.GetBulletin(id);
+            InsertAuthorDetails(bulletin);
             return bulletin;
         }
 
@@ -42,12 +49,19 @@ namespace EveCM.Managers.Bulletin
             return removedBulletin;
         }
 
+        public Models.Bulletin.Bulletin ReplaceBulletin(Models.Bulletin.Bulletin bulletin)
+        {
+            bulletin.UpdatedDate = DateTime.Now;
+            Models.Bulletin.Bulletin replacedBulletin = _bulletinRepository.ReplaceBulletin(bulletin);
+            return replacedBulletin;
+        }
+
         public Models.Bulletin.Bulletin SaveNewBulletin(Models.Bulletin.Bulletin bulletin, ClaimsPrincipal user)
         {
             ApplicationUser author = _userManager.GetUserAsync(user).Result;
 
             bulletin.AuthorId = author.Id;
-            bulletin.Date = DateTime.Now;
+            bulletin.CreatedDate = DateTime.Now;
 
             Models.Bulletin.Bulletin savedBulletin = _bulletinRepository.SaveBulletin(bulletin);
             InsertAuthorDetails(savedBulletin, author);

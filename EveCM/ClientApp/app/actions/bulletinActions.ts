@@ -28,6 +28,14 @@ export function removeBulletinSuccess(bulletin: IBulletin): RemoveBulletinSucces
     return { type: BulletinKeys.REMOVE_BULLETIN_SUCCESS, bulletin };
 }
 
+export interface ReplaceBulletinSuccessAction extends Action<string> {
+    bulletin: IBulletin
+}
+
+export function replaceBulletinSuccess(bulletin: IBulletin): ReplaceBulletinSuccessAction {
+    return { type: BulletinKeys.REPLACE_BULLETIN_SUCCESS, bulletin };
+}
+
 export function loadBulletins() {
     return function (dispatch: Dispatch) {
         return bulletinConnector.getAllBulletins()
@@ -55,5 +63,15 @@ export function removeBulletin(bulletin: IBulletin) {
                 dispatch(removeBulletinSuccess(bulletin.data));
             })
             .catch(error => { throw (error); });
+    }
+}
+
+export function replaceBulletin(bulletin: IBulletin) {
+    return function (dispatch: Dispatch) {
+        return bulletinConnector.replaceBulletin(bulletin)
+            .then((bulletin: AxiosResponse<IBulletin>) => {
+                dispatch(replaceBulletinSuccess(bulletin.data));
+            })
+            .catch(error => { throw (error); })
     }
 }

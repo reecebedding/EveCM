@@ -63,7 +63,29 @@ namespace EveCM.Controllers.API
             Bulletin bulletinToRemove = _bulletinManager.GetBulletin(id);
 
             Bulletin removedBulletin = _bulletinManager.RemoveBulletin(bulletinToRemove);
-            return Ok(removedBulletin);
+            BulletinDto removedBulletinDto = _mapper.Map<BulletinDto>(removedBulletin);
+            return Ok(removedBulletinDto);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult ReplaceBulletin(int id, [FromBody]Bulletin bulletin)
+        {
+            Bulletin bulletinToReplace = _bulletinManager.GetBulletin(id);
+            if (bulletinToReplace != null)
+                _bulletinManager.Detach(bulletinToReplace);
+
+            if (ModelState.IsValid && bulletinToReplace != null)
+            {
+                bulletinToReplace.Title = bulletin.Title;
+                bulletinToReplace.Content = bulletin.Content;
+
+                Bulletin bulletinReplaced = _bulletinManager.ReplaceBulletin(bulletinToReplace);
+                BulletinDto bulletinReplacedDto = _mapper.Map<BulletinDto>(bulletinReplaced);
+                return Ok(bulletinReplacedDto);
+            }
+            else
+                return BadRequest();
         }
     }
 }

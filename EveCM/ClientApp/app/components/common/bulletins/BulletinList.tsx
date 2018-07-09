@@ -5,7 +5,8 @@ import Bulletin from './Bulletin';
 
 interface IProps {
     bulletins: Contracts.IBulletin[],
-    removeBulletinAction: (bulletin: IBulletin) => any
+    removeBulletinAction: (bulletin: IBulletin) => any,
+    replaceBulletinAction: (bulletin: IBulletin) => any
 }
 
 export default class BulletinList extends React.Component<IProps> {
@@ -14,7 +15,7 @@ export default class BulletinList extends React.Component<IProps> {
         if (this.props.bulletins.length > 0) {
             return this.props.bulletins.map((bulletin, index) => (
                 <div key={bulletin.id}>
-                    <Bulletin bulletin={bulletin} removeBulletinAction={this.props.removeBulletinAction}/>
+                    <Bulletin bulletin={bulletin} removeBulletinAction={this.props.removeBulletinAction} replaceBulletinAction={this.props.replaceBulletinAction} />
                     {this.props.bulletins.length - 1 !== index && <hr />}
                 </div>
             ));

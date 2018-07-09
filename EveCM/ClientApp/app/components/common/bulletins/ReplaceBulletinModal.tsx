@@ -1,48 +1,50 @@
 ﻿import * as React from 'react';
-import { connect } from 'react-redux';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import * as BulletinActions from '../../../actions/bulletinActions';
-import { Dispatch, AnyAction } from 'redux';
-import { IBulletinStoreState } from '../../../store/IStoreState';
 import { IBulletin } from './interfaces/Interfaces';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { IBulletinStoreState } from '../../../store/IStoreState';
 import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+import { connect } from 'react-redux';
 
 interface IProps {
     active: boolean,
-    toggle: () => void,
-    save: (bulletin: IBulletin) => any
+    toggle: (bulletin: IBulletin) => void,
+    bulletin: IBulletin,
+    replaceAction: (bulletin: IBulletin) => any
 }
+
 
 interface IState {
     bulletin: IBulletin
 }
 
-export class NewBulletinModal extends React.Component<IProps, IState> {
+class ReplaceBulletinModal extends React.Component<IProps, IState> {
 
-    getInitialBulletinState(): IBulletin {
-        return {
-            id: 0,
-            title: '',
-            content: '',
-            createdDate: new Date,
-            authorCharacter: {
-                userName: '',
-                avatarUrl: ''
-            }
-        };
-    }
-
-    constructor(props: any) {
+    constructor(props: IProps) {
         super(props);
-
+        
         this.state = {
-            bulletin: this.getInitialBulletinState()
+            bulletin: this.props.bulletin
         };
     }
 
-    saveBulletin = (e: any) => {
-        this.props.save(this.state.bulletin);
-        this.props.toggle();
+    constructDefaultBulletin(): IBulletin {
+        return {
+            authorCharacter: {
+                avatarUrl: '',
+                userName: ''
+            },
+            content: '',
+            createdDate: new Date(),
+            id: 0,
+            title: ''
+        };
+    }
+
+    replaceBulletin = (e: any) => {
+        this.props.replaceAction(this.state.bulletin);
+        this.props.toggle(this.state.bulletin);
     }
 
     handleChange = (event: any) => {
@@ -60,7 +62,7 @@ export class NewBulletinModal extends React.Component<IProps, IState> {
 
     formClosed = () => {
         this.setState((prevState, props) => ({
-            bulletin: this.getInitialBulletinState()
+            bulletin: this.constructDefaultBulletin()
         }));
     }
 
@@ -69,10 +71,14 @@ export class NewBulletinModal extends React.Component<IProps, IState> {
             && this.state.bulletin.content.length > 0;
     }
 
+    handleToggle = () => {
+        this.props.toggle(this.state.bulletin);
+    }
+
     render() {
         return (
-            <Modal isOpen={this.props.active} toggle={this.props.toggle} onClosed={this.formClosed} className="modal-lg">
-                <ModalHeader toggle={this.props.toggle}>New Post</ModalHeader>
+            <Modal isOpen={this.props.active} toggle={this.handleToggle} onClosed={this.formClosed} className="modal-lg">
+                <ModalHeader toggle={this.handleToggle}>Update Post</ModalHeader>
                 <ModalBody>
                     <div className="form-group">
                         <label>Title</label>
@@ -84,8 +90,8 @@ export class NewBulletinModal extends React.Component<IProps, IState> {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={this.saveBulletin} disabled={!this.isSubmittable()}>Save</Button>
-                    <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
+                    <Button color="primary" onClick={this.replaceBulletin} disabled={!this.isSubmittable()}>Save</Button>
+                    <Button color="secondary" onClick={this.handleToggle}>Cancel</Button>
                 </ModalFooter>
             </Modal>
         );
@@ -99,8 +105,8 @@ function mapStateToProps(state: IBulletinStoreState) {
 
 function mapDispatchToProps(dispatch: ThunkDispatch<IBulletinStoreState, null, AnyAction>) {
     return {
-        save: (bulletin: IBulletin) => dispatch(BulletinActions.saveBulletin(bulletin))
+        replaceAction: (bulletin: IBulletin) => dispatch(BulletinActions.replaceBulletin(bulletin))
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewBulletinModal);
+export default connect(mapStateToProps, mapDispatchToProps)(ReplaceBulletinModal);

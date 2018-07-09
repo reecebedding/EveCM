@@ -35,7 +35,7 @@ namespace EveCM.Tests.Data.Repositories
                         AuthorId = i.ToString(),
                         Content = $"This is some content: {i}",
                         Title = $"This is some title: {i}",
-                        Date = DateTime.Now.AddDays(i - 1)
+                        CreatedDate = DateTime.Now.AddDays(i - 1)
                     });
                     context.SaveChanges();
                 }
@@ -70,7 +70,7 @@ namespace EveCM.Tests.Data.Repositories
                         AuthorId = i.ToString(),
                         Content = $"This is some content: {i}",
                         Title = $"This is some title: {i}",
-                        Date = DateTime.Now.AddDays(i - 1)
+                        CreatedDate = DateTime.Now.AddDays(i - 1)
                     });
                     context.SaveChanges();
                 }
@@ -107,7 +107,7 @@ namespace EveCM.Tests.Data.Repositories
                         Content = $"This is some content: {i}",
                         Title = $"This is some title: {i}",
                         //add dates in past
-                        Date = DateTime.Now.AddDays(i * -1)
+                        CreatedDate = DateTime.Now.AddDays(i * -1)
                     });
                     context.SaveChanges();
                 }
@@ -120,8 +120,8 @@ namespace EveCM.Tests.Data.Repositories
 
 
                 Assert.AreEqual(entityCount, result.Count());
-                Assert.AreEqual(DateTime.Now.ToShortDateString(), result.First().Date.ToShortDateString());
-                Assert.AreEqual(DateTime.Now.AddDays((entityCount-1)*-1).ToShortDateString(), result.Last().Date.ToShortDateString());
+                Assert.AreEqual(DateTime.Now.ToShortDateString(), result.First().CreatedDate.ToShortDateString());
+                Assert.AreEqual(DateTime.Now.AddDays((entityCount-1)*-1).ToShortDateString(), result.Last().CreatedDate.ToShortDateString());
             }
         }
 
@@ -137,7 +137,7 @@ namespace EveCM.Tests.Data.Repositories
             {
                 AuthorId = "1",
                 Content = "TestContent",
-                Date = DateTime.Now,
+                CreatedDate = DateTime.Now,
                 Id = 1234,
                 Title = "TestTitle"
             };

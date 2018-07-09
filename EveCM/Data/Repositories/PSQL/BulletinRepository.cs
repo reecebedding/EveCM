@@ -1,5 +1,6 @@
 ﻿using EveCM.Data.Repositories.Contracts;
 using EveCM.Models.Bulletin;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,11 @@ namespace EveCM.Data.Repositories.PSQL
             db = context;
         }
 
+        public void Detach(Bulletin bulletin)
+        {
+            db.Entry(bulletin).State = EntityState.Detached;
+        }
+
         public Bulletin GetBulletin(int id)
         {
             Bulletin bulletin = db.Bulletins.Where(x => x.Id == id).FirstOrDefault();
@@ -24,7 +30,7 @@ namespace EveCM.Data.Repositories.PSQL
 
         public IEnumerable<Bulletin> GetBulletins(out int totalCount, int? count = null)
         {
-            var query = db.Bulletins.OrderByDescending(x => x.Date).AsQueryable();
+            var query = db.Bulletins.OrderByDescending(x => x.CreatedDate).AsQueryable();
             if (count != null)
                 query = query.Take((int)count);
 
@@ -40,6 +46,18 @@ namespace EveCM.Data.Repositories.PSQL
             db.SaveChanges();
 
             return bulletinRemoved;
+        }
+
+        public Bulletin ReplaceBulletin(Bulletin bulletin)
+        {
+            if (bulletin.Id != 0)
+            {
+                Bulletin bulletinReplaced = db.Bulletins.Update(bulletin).Entity;
+                db.SaveChanges();
+                return bulletinReplaced;
+            }
+            else
+                throw new Exception("Cannot update a bulletin with no known id.");
         }
 
         public Bulletin SaveBulletin(Bulletin bulletin)

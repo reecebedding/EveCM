@@ -10,7 +10,8 @@ namespace EveCM.Models.Bulletin.Dtos
         public string Title { get; set; }
         [Required]
         public string Content { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
         public AuthorCharacterDto AuthorCharacter { get; set; }
     }
 }
