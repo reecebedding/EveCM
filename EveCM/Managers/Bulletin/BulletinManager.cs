@@ -36,6 +36,12 @@ namespace EveCM.Managers.Bulletin
             return bulletins;
         }
 
+        public Models.Bulletin.Bulletin RemoveBulletin(Models.Bulletin.Bulletin bulletin)
+        {
+            Models.Bulletin.Bulletin removedBulletin = _bulletinRepository.RemoveBulletin(bulletin);
+            return removedBulletin;
+        }
+
         public Models.Bulletin.Bulletin SaveNewBulletin(Models.Bulletin.Bulletin bulletin, ClaimsPrincipal user)
         {
             ApplicationUser author = _userManager.GetUserAsync(user).Result;

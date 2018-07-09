@@ -5,7 +5,8 @@ import * as adminActions from './adminActions';
 //Use Tagged union types to append all known types to this
 export type BulletinActions =
     bulletinActions.LoadBulletinSuccessAction
-    & bulletinActions.SaveBulletinSuccessAction;
+    & bulletinActions.SaveBulletinSuccessAction
+    & bulletinActions.RemoveBulletinSuccessAction;
 
 export type UserActions = userActions.LoadUserSuccessAction;
 

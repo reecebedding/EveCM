@@ -20,6 +20,14 @@ export function saveBulletinSuccess(bulletin: IBulletin): SaveBulletinSuccessAct
     return { type: BulletinKeys.SAVE_BULLETIN_SUCCESS, bulletin };
 }
 
+export interface RemoveBulletinSuccessAction extends Action<string> {
+    bulletin: IBulletin
+}
+
+export function removeBulletinSuccess(bulletin: IBulletin): RemoveBulletinSuccessAction {
+    return { type: BulletinKeys.REMOVE_BULLETIN_SUCCESS, bulletin };
+}
+
 export function loadBulletins() {
     return function (dispatch: Dispatch) {
         return bulletinConnector.getAllBulletins()
@@ -35,6 +43,16 @@ export function saveBulletin(bulletin: IBulletin) {
         return bulletinConnector.saveNewBulletin(bulletin)
             .then((bulletin: AxiosResponse<IBulletin>) => {
                 dispatch(saveBulletinSuccess(bulletin.data));
+            })
+            .catch(error => { throw (error); });
+    }
+}
+
+export function removeBulletin(bulletin: IBulletin) {
+    return function (dispatch: Dispatch) {
+        return bulletinConnector.removeBulletin(bulletin)
+            .then((bulletin: AxiosResponse<IBulletin>) => {
+                dispatch(removeBulletinSuccess(bulletin.data));
             })
             .catch(error => { throw (error); });
     }

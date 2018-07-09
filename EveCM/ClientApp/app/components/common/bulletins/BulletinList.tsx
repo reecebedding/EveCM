@@ -3,12 +3,18 @@ import * as React from 'react';
 import { IBulletin } from './interfaces/Interfaces';
 import Bulletin from './Bulletin';
 
-export default class BulletinList extends React.Component<{ bulletins: Contracts.IBulletin[] }, any> {
+interface IProps {
+    bulletins: Contracts.IBulletin[],
+    removeBulletinAction: (bulletin: IBulletin) => any
+}
+
+export default class BulletinList extends React.Component<IProps> {
+    
     render() {
         if (this.props.bulletins.length > 0) {
             return this.props.bulletins.map((bulletin, index) => (
                 <div key={bulletin.id}>
-                    <Bulletin bulletin={bulletin} />
+                    <Bulletin bulletin={bulletin} removeBulletinAction={this.props.removeBulletinAction}/>
                     {this.props.bulletins.length - 1 !== index && <hr />}
                 </div>
             ));

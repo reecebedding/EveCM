@@ -11,5 +11,6 @@ namespace EveCM.Data.Repositories.Contracts
         IEnumerable<Bulletin> GetBulletins(out int totalCount, int? count = null);
         Bulletin GetBulletin(int id);
         Bulletin SaveBulletin(Bulletin bulletin);
+        Bulletin RemoveBulletin(Bulletin bulletin);
     }
 }
